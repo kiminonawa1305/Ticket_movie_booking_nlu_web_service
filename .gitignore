@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+/.idea/
+/target/
+/.mvn/
+/mvnw
+/mvnw.cmd
+/HELP.md
+/webservice_ticket_movie_booking_nlu.iml
+/src/test/
