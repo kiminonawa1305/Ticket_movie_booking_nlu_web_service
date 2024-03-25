@@ -1,17 +1,19 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity;
 
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.entity_id.MovieReviewId;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "movie_reviews")
 @Data
+@Table(name = "movie_reviews")
+@IdClass(MovieReviewId.class)
 public class MovieReview {
     @Id
     @Column(name = "movie_id")
-    private Long movieId;
+    private Integer movieId;
     @Id
     @Column(name = "customer_id")
     private Integer customerId;
@@ -20,10 +22,11 @@ public class MovieReview {
     private LocalDateTime date;
 
     @ManyToOne
-    @MapsId
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private Movie movie;
 
     @ManyToOne
     @MapsId
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 }

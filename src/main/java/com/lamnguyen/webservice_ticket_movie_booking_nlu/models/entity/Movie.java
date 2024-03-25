@@ -26,7 +26,6 @@ public class Movie implements Serializable {
     @OneToMany(mappedBy = "movie")
     private List<Showtime> showtimes;
 
-    @OneToMany
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "movie")
     private List<MovieReview> movieReviews;
 }

@@ -20,7 +20,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
 
-    @OneToMany
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "customer")
     private List<MovieReview> movieReviews;
 }
