@@ -1,16 +1,25 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.controllers;
 
 
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/movie/api")
 public class MovieRestController {
-    @GetMapping(value = "/get")
-    public String get() {
-        return "GET";
+    @Autowired
+    private MovieService movieService;
+
+
+    @GetMapping(value = "/movie-showtime")
+    public List<MovieDTO> getMovieShow() {
+        return movieService.getMovieHasShowtime();
     }
 
     @PostMapping(value = "/post")

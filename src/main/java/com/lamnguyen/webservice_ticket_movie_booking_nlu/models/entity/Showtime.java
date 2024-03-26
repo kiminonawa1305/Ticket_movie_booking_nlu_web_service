@@ -13,13 +13,13 @@ public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date", nullable = false, length = 0)
     private LocalDateTime startDate;
 
     @OneToMany(mappedBy = "showtime")
     private List<Ticket> tickets;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 

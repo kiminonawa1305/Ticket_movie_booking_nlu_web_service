@@ -23,7 +23,7 @@ public class Movie implements Serializable {
     @Column(name = "id_api")
     private String idApi;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Showtime> showtimes;
 
     @OneToMany(mappedBy = "movie")
