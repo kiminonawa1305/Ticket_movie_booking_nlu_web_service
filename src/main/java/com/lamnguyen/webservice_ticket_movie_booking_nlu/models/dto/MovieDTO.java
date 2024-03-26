@@ -6,4 +6,5 @@ import lombok.Data;
 public class MovieDTO {
     private String idApi;
     private String name;
+//    fix
 }
