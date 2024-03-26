@@ -1,26 +1,64 @@
-name: CI
+authtoken: 2dtHGMXVJhLh4ECDnaZw5tr7saj_3XXbWz4yDu5ASXVCxPnSK
+api_key: 2eDocwfnMlylVJpBvpmv6w4j5VZ_58TChFww9yGEcyZhoH83a
+connect_timeout: 30s
+console_ui: true
+console_ui_color: transparent
+dns_resolver_ips:
+  - 1.1.1.1
+  - 8.8.8.8
+heartbeat_interval: 1m
+heartbeat_tolerance: 5s
+inspect_db_size: 104857600 # 100mb
+inspect_db_size: 50000000
+log_level: info
+log_format: json
+log: /var/log/ngrok.log
+metadata: '{"serial": "00012xa-33rUtz9", "comment": "For customer alan@example.com"}'
+proxy_url: socks5://localhost:9150
+region: us
+remote_management: false
+root_cas: trusted
+update_channel: stable
+update_check: false
+version: 2
+web_addr: localhost:4040
+tunnels:
+  website:
+    addr: 8888
+    basic_auth:
+      - "bob:bobpassword"
+    schemes:
+      - https
+    host_header: "myapp.ngrok.dev"
+    inspect: false
+    proto: http
+    domain: myapp.ngrok.dev
 
-on:
-  push:
-  workflow_dispatch:
+  e2etls:
+    addr: 9000
+    proto: tls
+    domain: myapp.example.com
+    crt: example.crt
+    key: example.key
 
-jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-    - name: Download ngrok
-      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-    - name: Extract ngrok
-      run: Expand-Archive ngrok.zip
-    - name: Authenticate with ngrok
-      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-    - name: Enable Remote Desktop
-      run: |
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
-        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
-    - name: Create ngrok tunnel to remote desktop
-      run: .\ngrok\ngrok.exe tcp 3389
+  policyenforced:
+    policy:
+      inbound:
+        - name: LimitIPs
+          expressions:
+            - "conn.ClientIP != '1.1.1.1'"
+          actions:
+            - type: deny
+    addr: 8000
+    proto: tcp
+
+  ssh-access:
+    addr: 22
+    proto: tcp
+    remote_addr: 1.tcp.ngrok.io:12345
+
+  my-load-balanced-website:
+    labels:
+      - env=prod
+      - team=infra
+    addr: 8000
