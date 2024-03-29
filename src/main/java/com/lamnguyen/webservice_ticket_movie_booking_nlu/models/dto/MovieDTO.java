@@ -2,9 +2,11 @@ package com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class MovieDTO {
-    private String idApi;
-    private String name;
-//    fix
+public class MovieDTO implements Serializable {
+    private String name, poster, genre;
+    private Integer runTime, vote;
+    private Double rate;
 }
