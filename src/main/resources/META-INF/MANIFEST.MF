@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.lamnguyen.webservice_ticket_movie_booking_nlu.Webservice
+ TicketMovieBookingNluApplication
+
