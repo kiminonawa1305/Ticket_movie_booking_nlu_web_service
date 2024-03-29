@@ -23,6 +23,19 @@ public class Movie implements Serializable {
     @Column(name = "id_api")
     private String idApi;
 
+    @Lob
+    private String poster;
+
+    @Column(name = "run_time")
+    private Integer runTime;
+
+    private Double rate;
+
+    private String genre;
+
+    @Column(name = "votes")
+    private Integer vote;
+
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Showtime> showtimes;
 

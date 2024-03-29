@@ -29,8 +29,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieDTO> getMovieHasShowtime() {
-        return convert(movieRepository.getMovieHasShowtime(LocalDateTime.of(LocalDate.now(), LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX)));
+    public List<MovieDTO> getMovieHasShowtime(LocalDate date) {
+        return convert(movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX)));
     }
 
     @Override
