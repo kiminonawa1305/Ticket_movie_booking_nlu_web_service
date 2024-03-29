@@ -8,7 +8,7 @@
         <version>3.2.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lamnguye.webservice_ticket_movie_booking_nl</groupId>
+    <groupId>com.mycompany.app</groupId>
     <artifactId>java-maven</artifactId>
     <version>0.0.1</version>
     <name>webservice_ticket_movie_booking_nlu</name>
