@@ -29,4 +29,5 @@ jobs:
     - name: Publish to GitHub Packages Apache Maven
       run: mvn --batch-mode deploy
       env:
-        GITHUB_TOKEN: ${{ secrets.JAVA_DISPLOY_TOKEN }}
+        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.JAVA_DEPLOY_TOKEN }}
