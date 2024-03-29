@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>webservice_ticket_movie_booking_nlu</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>webservice_ticket_movie_booking_nlu</name>
     <description>webservice_ticket_movie_booking_nlu</description>
     <properties>
