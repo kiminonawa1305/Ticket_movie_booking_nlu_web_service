@@ -2,6 +2,8 @@ package com.lamnguyen.webservice_ticket_movie_booking_nlu.services.impl;
 
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.converter.ConverterEntityToDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Chair;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Room;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.repositories.MovieRepository;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieService;
@@ -22,7 +24,6 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private ConverterEntityToDTO converterEntityToDTO;
 
-
     @Override
     public List<MovieDTO> findAll() {
         return convert(movieRepository.findAll());
@@ -37,6 +38,7 @@ public class MovieServiceImpl implements MovieService {
     public void insert(Movie movie) {
         movieRepository.save(movie);
     }
+
 
     public List<MovieDTO> convert(List<Movie> movies) {
         List<MovieDTO> result = new ArrayList<MovieDTO>();

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChairRepository extends JpaRepository<Chair, Integer>, ChairCustomRepository {
+    Chair findChairById(Integer id);
 }

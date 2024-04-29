@@ -1,8 +1,10 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.converter;
 
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.ChairDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.CustomerDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieReviewDTO;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Chair;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Customer;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.MovieReview;
@@ -25,5 +27,9 @@ public class ConverterEntityToDTO {
 
     public MovieReviewDTO convert(MovieReview review) {
         return modelMapper.map(review, MovieReviewDTO.class);
+    }
+
+    public ChairDTO convert(Chair chair) {
+        return modelMapper.map(chair, ChairDTO.class);
     }
 }
