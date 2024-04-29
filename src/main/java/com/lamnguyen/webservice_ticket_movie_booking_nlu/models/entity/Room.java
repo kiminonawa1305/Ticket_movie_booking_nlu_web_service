@@ -2,6 +2,7 @@ package com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.LazyGroup;
 
 import java.util.List;
 
@@ -16,9 +17,10 @@ public class Room {
 
     private String name;
 
-    @OneToMany(mappedBy = "room")
-    private List<Showtime> showtimes;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private List<Showtime> showtime;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Chair> chairs;
 }

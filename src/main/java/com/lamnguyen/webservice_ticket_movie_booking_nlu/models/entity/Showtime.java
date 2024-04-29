@@ -16,14 +16,11 @@ public class Showtime {
     @Column(name = "start_date", nullable = false, length = 0)
     private LocalDateTime startDate;
 
-    @OneToMany(mappedBy = "showtime")
-    private List<Ticket> tickets;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 }

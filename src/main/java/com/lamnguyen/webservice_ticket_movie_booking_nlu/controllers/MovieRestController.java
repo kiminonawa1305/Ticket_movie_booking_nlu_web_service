@@ -19,7 +19,6 @@ public class MovieRestController {
     @Autowired
     private MovieService movieService;
 
-
     @GetMapping(value = "/movie-showtime")
     public List<MovieDTO> getMovieShow(@RequestParam Map<String, Object> args) {
         String dateStr = (String) args.get("date");
