@@ -11,8 +11,6 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieResponse implements Serializable {
-    private String title, poster, genre, duration;
-    private Integer id, vote;
-    private Double rate;
+public class MovieResponseRestApi implements Serializable {
+    private String Title, Poster, Genre, Runtime;
 }

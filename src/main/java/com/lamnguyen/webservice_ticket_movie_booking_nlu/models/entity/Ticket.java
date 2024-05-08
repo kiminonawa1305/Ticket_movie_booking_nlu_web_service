@@ -17,6 +17,12 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    private boolean avail;
+
+    @ManyToOne
+    @JoinColumn(name = "showtime_id")
+    private Showtime showtime;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;

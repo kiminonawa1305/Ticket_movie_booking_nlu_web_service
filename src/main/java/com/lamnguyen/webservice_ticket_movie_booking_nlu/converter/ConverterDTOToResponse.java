@@ -6,9 +6,8 @@ import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieReviewDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Chair;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Customer;
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.MovieReview;
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponseRestApi;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +21,8 @@ public class ConverterDTOToResponse {
         return modelMapper.map(customer, CustomerDTO.class);
     }
 
-    public MovieResponse convert(MovieDTO movie) {
-        return modelMapper.map(movie, MovieResponse.class);
+    public MovieResponseRestApi convert(MovieDTO movie) {
+        return modelMapper.map(movie, MovieResponseRestApi.class);
     }
 
     public MovieReviewDTO convert(MovieReview review) {

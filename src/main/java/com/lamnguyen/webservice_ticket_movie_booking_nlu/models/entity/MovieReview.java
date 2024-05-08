@@ -13,7 +13,7 @@ public class MovieReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double star;
+    private Integer star;
     private String content;
     private LocalDateTime date;
 

@@ -1,15 +1,19 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.services.impl;
 
+import com.google.gson.Gson;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.converter.ConverterDTOToResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.converter.ConverterEntityToDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.*;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.MovieReview;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieDetailResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponseRestApi;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.repositories.MovieRepository;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,25 +39,36 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieResponse> getMovieHasShowtime(LocalDate date) {
-        List<Movie> movieDTOS = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
-        return convertToResponse(convertToDTO(movieDTOS));
+        List<Movie> movies = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
+
+        RestTemplate restTemplate = new RestTemplate();
+        return movies.stream().map(movie -> {
+            String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + movie.getIdApi(), String.class);
+            MovieResponseRestApi restApi = new Gson().fromJson(data, MovieResponseRestApi.class);
+            MovieResponse response = MovieResponse.builder().id(movie.getId())
+                    .title(restApi.getTitle())
+                    .poster(restApi.getPoster())
+                    .genre(restApi.getGenre())
+                    .duration(restApi.getRuntime())
+                    .vote(movie.getMovieReviews().size())
+                    .rate(rating(movie))
+                    .build();
+            return response;
+        }).toList();
     }
 
     @Override
     public MovieDetailResponse getMovieDetailById(Integer id) {
         Movie movie = movieRepository.findById(id).orElse(null);
         List<MovieReview> movieReviews = movie.getMovieReviews();
-        int countStar = 0;
-        for(MovieReview review : movieReviews) {
-            countStar += review.getStar();
-        }
 
-        return MovieDetailResponse.builder()
-                .id(movie.getId())
-                .idApi(movie.getIdApi())
-                .vote(movieReviews.size())
-                .rate(movieReviews.isEmpty() ? 5.0 :countStar / (double)movieReviews.size())
-                .build();
+        return MovieDetailResponse.builder().id(movie.getId()).idApi(movie.getIdApi()).vote(movieReviews.size()).rate(rating(movie)).build();
+    }
+
+    private double rating(Movie movie) {
+        List<MovieReview> movieReviews = movie.getMovieReviews();
+        int countStar = movieReviews.stream().map(MovieReview::getStar).reduce(0, Integer::sum);
+        return movieReviews.isEmpty() ? 5.0 : countStar / (double) movieReviews.size();
     }
 
     @Override
@@ -73,9 +88,9 @@ public class MovieServiceImpl implements MovieService {
         return result;
     }
 
-    private List<MovieResponse> convertToResponse(List<MovieDTO> movieDTOS) {
-        List<MovieResponse> result = new ArrayList<MovieResponse>();
-        MovieResponse response;
+    private List<MovieResponseRestApi> convertToResponse(List<MovieDTO> movieDTOS) {
+        List<MovieResponseRestApi> result = new ArrayList<MovieResponseRestApi>();
+        MovieResponseRestApi response;
         for (MovieDTO movie : movieDTOS) {
             response = converterDTOToResponse.convert(movie);
             result.add(response);
