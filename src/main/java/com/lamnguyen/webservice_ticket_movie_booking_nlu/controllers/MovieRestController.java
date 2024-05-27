@@ -4,6 +4,7 @@ package com.lamnguyen.webservice_ticket_movie_booking_nlu.controllers;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.APIResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieDetailResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieDetailService;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class MovieRestController {
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private MovieDetailService movieDetailService;
 
     @GetMapping(value = "/showtime")
     public APIResponse<List<MovieResponse>> getMovieShow(@RequestParam Map<String, Object> args) {
@@ -34,9 +37,10 @@ public class MovieRestController {
 
     @GetMapping(value = "/detail/{id}")
     public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("id") Integer id) {
+        MovieDetailResponse result = movieDetailService.getMovieDetail(id);
         return APIResponse.<MovieDetailResponse>builder()
                 .status(202).message("Success")
-                .data(movieService.getMovieDetailById(id))
+                .data(result)
                 .build();
     }
 }

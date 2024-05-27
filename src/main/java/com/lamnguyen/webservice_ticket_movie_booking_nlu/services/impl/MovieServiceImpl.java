@@ -38,6 +38,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public MovieDTO findById(Integer id) {
+        return convertToDTO(movieRepository.findById(id).orElse(null));
+    }
+
+    @Override
     public List<MovieResponse> getMovieHasShowtime(LocalDate date) {
         List<Movie> movies = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
 
@@ -45,7 +50,8 @@ public class MovieServiceImpl implements MovieService {
         return movies.stream().map(movie -> {
             String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + movie.getIdApi(), String.class);
             MovieResponseRestApi restApi = new Gson().fromJson(data, MovieResponseRestApi.class);
-            MovieResponse response = MovieResponse.builder().id(movie.getId())
+            MovieResponse response = MovieResponse.builder()
+                    .id(movie.getId())
                     .title(restApi.getTitle())
                     .poster(restApi.getPoster())
                     .genre(restApi.getGenre())
@@ -55,14 +61,6 @@ public class MovieServiceImpl implements MovieService {
                     .build();
             return response;
         }).toList();
-    }
-
-    @Override
-    public MovieDetailResponse getMovieDetailById(Integer id) {
-        Movie movie = movieRepository.findById(id).orElse(null);
-        List<MovieReview> movieReviews = movie.getMovieReviews();
-
-        return MovieDetailResponse.builder().id(movie.getId()).idApi(movie.getIdApi()).vote(movieReviews.size()).rate(rating(movie)).build();
     }
 
     private double rating(Movie movie) {
@@ -76,6 +74,9 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(movie);
     }
 
+    private MovieDTO convertToDTO(Movie movie) {
+        return converterEntityToDTO.convert(movie);
+    }
 
     private List<MovieDTO> convertToDTO(List<Movie> movies) {
         List<MovieDTO> result = new ArrayList<MovieDTO>();

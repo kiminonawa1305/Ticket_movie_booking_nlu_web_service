@@ -11,9 +11,9 @@ import java.util.List;
 public interface MovieService {
     List<MovieDTO> findAll();
 
+    MovieDTO findById(Integer id);
+
     List<MovieResponse> getMovieHasShowtime(LocalDate date);
 
     void insert(Movie movie);
-
-    MovieDetailResponse getMovieDetailById(Integer id);
 }

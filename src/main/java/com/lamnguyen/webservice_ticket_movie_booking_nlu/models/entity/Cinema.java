@@ -1,7 +1,10 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
@@ -9,6 +12,9 @@ import java.util.List;
 @Table(name = "cinemas")
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

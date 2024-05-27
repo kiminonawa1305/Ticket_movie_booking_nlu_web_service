@@ -10,8 +10,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieDetailResponse {
-    private Integer id;
-    private String idApi;
-    private Integer vote;
+    private String title, poster, duration, description;
+    private Integer id, vote;
     private Double rate;
+    private String[] actors, directors, genres;
+
+    public void parseActors(String actors) {
+        this.actors = actors.split(", ");
+    }
+
+    public void parseDirectors(String directors) {
+        this.directors = directors.split(", ");
+    }
+
+    public void parseGenres(String genres) {
+        this.genres = genres.split(", ");
+    }
 }
