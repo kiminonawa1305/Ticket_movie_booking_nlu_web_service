@@ -28,4 +28,7 @@ public class Movie implements Serializable {
 
     @OneToMany(mappedBy = "movie")
     private List<MovieReview> movieReviews;
+
+    @OneToMany(mappedBy = "movie")
+    private List<MovieFavorite> movieFavorites;
 }

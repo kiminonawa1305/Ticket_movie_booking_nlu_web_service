@@ -18,14 +18,13 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String avatar;
-    private String background;
-    private String email;
-
+    private String apiId;
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
 
     @OneToMany(mappedBy = "customer")
     private List<MovieReview> movieReviews;
+
+    @OneToMany(mappedBy = "customer")
+    private List<MovieFavorite> movieFavorites;
 }
