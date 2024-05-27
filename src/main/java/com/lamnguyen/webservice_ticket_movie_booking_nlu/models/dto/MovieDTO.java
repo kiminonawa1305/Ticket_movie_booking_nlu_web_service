@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class MovieDTO implements Serializable {
-    private String name, poster, genre;
-    private Integer runTime, vote;
-    private Double rate;
+    private Integer id;
+    private String idApi;
 }

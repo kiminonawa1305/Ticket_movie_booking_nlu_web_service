@@ -13,8 +13,10 @@ public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "start_date", nullable = false, length = 0)
-    private LocalDateTime startDate;
+    @Column(nullable = false, length = 0)
+    private LocalDateTime start;
+
+    private boolean avail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
@@ -23,4 +25,7 @@ public class Showtime {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @OneToMany(mappedBy = "showtime", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 }

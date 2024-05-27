@@ -1,9 +1,9 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.controllers;
 
 
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.APIResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.ChairDTO;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Chair;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.APIResponse;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.ChairService;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,11 @@ public class ChairRestController {
         Integer showtimeId = Integer.valueOf(requestBody.get("showtime-id"));
         String uuid = chairService.createKeyChairStatus(showtimeId);
         APIResponse<String> response = new APIResponse<>();
-        response.setData(uuid);
-        response.setMessage("Success");
-        response.setStatus(202);
-        return response;
+        return APIResponse.<String>builder()
+                .status(202)
+                .message("Success")
+                .data(uuid)
+                .build();
     }
 
     @PostMapping(value = "/chair-status/update")
@@ -44,15 +45,17 @@ public class ChairRestController {
         String status = requestBody.get("status");
         ChairDTO chair = chairService.updateChairStatus(showtimeId, chairId, status);
         if (chair == null) {
-            response.setMessage("Fail");
-            response.setStatus(500);
-            return response;
+            return APIResponse.<ChairDTO>builder()
+                    .status(500)
+                    .message("Fail")
+                    .build();
 
         }
-        response.setData(chair);
-        response.setMessage("Success");
-        response.setStatus(202);
-        return response;
+        return APIResponse.<ChairDTO>builder()
+                .status(202)
+                .message("Success")
+                .data(chair)
+                .build();
     }
 }
 

@@ -1,15 +1,15 @@
 package com.lamnguyen.webservice_ticket_movie_booking_nlu.controllers;
 
 
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.dto.MovieDTO;
-import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.entity.Movie;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.APIResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieDetailResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.models.response.MovieResponse;
+import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieDetailService;
 import com.lamnguyen.webservice_ticket_movie_booking_nlu.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -18,35 +18,30 @@ import java.util.Map;
 public class MovieRestController {
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private MovieDetailService movieDetailService;
 
-    @GetMapping(value = "/movie-showtime")
-    public List<MovieDTO> getMovieShow(@RequestParam Map<String, Object> args) {
+    @GetMapping(value = "/showtime")
+    public APIResponse<List<MovieResponse>> getMovieShow(@RequestParam Map<String, Object> args) {
         String dateStr = (String) args.get("date");
-        if (dateStr != null) {
-            LocalDate date = LocalDate.parse(dateStr);
-            return movieService.getMovieHasShowtime(date);
-        }
-        return movieService.getMovieHasShowtime(LocalDate.now());
+        LocalDate date;
+        if (dateStr != null) date = LocalDate.parse(dateStr);
+        else date = LocalDate.now();
+        List<MovieResponse> movies = movieService.getMovieHasShowtime(date);
+        return APIResponse.<List<MovieResponse>>builder()
+                .status(202)
+                .message("Success")
+                .data(movies)
+                .build();
     }
 
-    @PostMapping(value = "/post")
-    public String post(@RequestParam Map<String, Object> attr) {
-        return "POST";
-    }
-
-    @DeleteMapping(value = "/delete")
-    public String delete() {
-        return "DELETE";
-    }
-
-    @PutMapping(value = "/put")
-    public String put() {
-        return "PUT";
-    }
-
-    @PatchMapping(value = "/patch")
-    public String patch() {
-        return "patch";
+    @GetMapping(value = "/detail/{id}")
+    public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("id") Integer id) {
+        MovieDetailResponse result = movieDetailService.getMovieDetail(id);
+        return APIResponse.<MovieDetailResponse>builder()
+                .status(202).message("Success")
+                .data(result)
+                .build();
     }
 }
 
