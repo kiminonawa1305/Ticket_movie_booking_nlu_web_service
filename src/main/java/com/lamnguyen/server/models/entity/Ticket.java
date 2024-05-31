@@ -1,0 +1,33 @@
+package com.lamnguyen.server.models.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "tickets")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
+    private boolean avail;
+
+    @ManyToOne
+    @JoinColumn(name = "showtime_id")
+    private Showtime showtime;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "chair_id")
+    private Chair chair;
+}
