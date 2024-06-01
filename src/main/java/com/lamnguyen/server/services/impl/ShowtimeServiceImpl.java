@@ -24,7 +24,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public Chair findChairById(Integer showtimeId, Integer chairId) {
+    public Chair findByChairId(Integer showtimeId, Integer chairId) {
         Showtime showtime = findById(showtimeId);
         if (showtime != null) {
             return showtime.getRoom().getChairs().stream().filter(chair -> chair.getId().equals(chairId)).findFirst().orElse(null);
@@ -36,6 +36,12 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     public PriceBoardDTO getPriceBoard(Integer showtimeId) {
         PriceBoard priceBoard = showtimeRepository.findPriceBoard(showtimeId);
         return convert(priceBoard);
+    }
+
+    @Override
+    public Showtime findByChairId(Integer chairId) {
+//        return showtimeRepository.findByChairId(chairId);
+        return null;
     }
 
     private PriceBoardDTO convert(PriceBoard priceBoard) {

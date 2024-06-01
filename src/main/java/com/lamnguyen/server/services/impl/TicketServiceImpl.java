@@ -6,6 +6,7 @@ import com.lamnguyen.server.enums.ChairStatus;
 import com.lamnguyen.server.models.entity.*;
 import com.lamnguyen.server.models.response.TicketResponse;
 import com.lamnguyen.server.repositories.ChairRepository;
+import com.lamnguyen.server.repositories.ShowtimeRepository;
 import com.lamnguyen.server.repositories.TicketRepository;
 import com.lamnguyen.server.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,18 @@ public class TicketServiceImpl implements TicketService {
     private TicketRepository ticketRepository;
     @Autowired
     private ChairRepository chairRepository;
+    @Autowired
+    private ShowtimeRepository showtimeRepository;
 
     @Override
     public Ticket buyTicket(Integer chairId, Integer customerId) {
+        Showtime st = showtimeRepository.findByChairId(chairId);
         Chair chair = chairRepository.findChairById(chairId);
         if (chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD.toString())) return null;
         Ticket ticket = Ticket.builder()
                 .chair(Chair.builder().id(chairId).build())
                 .customer(Customer.builder().id(customerId).build())
+                .showtime(st)
                 .build();
         chairRepository.updateById(chairId, ChairStatus.SOLD);
         return ticketRepository.saveAndFlush(ticket);
