@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(value = "/ticket-detail/api")
+    @RequestMapping(value = "/ticket-detail/api")
 public class TicketDetailController {
     @Autowired
     private TicketDetailServiceImpl ticketDetailService;

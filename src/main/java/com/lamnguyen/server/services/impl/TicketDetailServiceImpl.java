@@ -38,7 +38,7 @@ public class TicketDetailServiceImpl implements TicketDetailService {
                 .id(ticket.getId())
                 .poster(json.get("Poster").getAsString())
                 .nameMovie(json.get("Title").getAsString())
-//                .duration(json.get("Duration").getAsString())
+                .duration(json.get("Runtime").getAsString())
                 .nameChair(chair.getName())
                 .startShowtime(showtime.getStart())
                 .nameRoom(room.getName())
