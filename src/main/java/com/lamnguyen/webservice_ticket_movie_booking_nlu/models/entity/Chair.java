@@ -17,13 +17,15 @@ import java.util.List;
 @Data
 public class Chair {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "`status`", columnDefinition = "ENUM('AVAILABLE', 'SELECTED', 'SOLD')")
     private String status = ChairStatus.AVAILABLE.toString();
+
     @Column
     private String name;
+
     @Column(name = "`describe`")
     private String describe;
 
@@ -31,7 +33,10 @@ public class Chair {
     @JoinColumn(name = "room_id")
     private Room room;
 
-
     @OneToMany(mappedBy = "chair")
     private List<Ticket> tickets;
+
+    @ManyToOne
+    @JoinColumn(name = "chair_type_id")
+    private ChairType chairType;
 }

@@ -20,4 +20,6 @@ public class TicketResponse implements Serializable {
     private LocalDateTime startShowtime;
     private String nameRoom;
     private String poster;
+    private double bookedPrice;
+    private boolean available;
 }

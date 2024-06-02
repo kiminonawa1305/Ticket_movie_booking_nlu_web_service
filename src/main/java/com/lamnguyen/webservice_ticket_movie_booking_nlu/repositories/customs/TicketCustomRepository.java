@@ -13,4 +13,7 @@ public interface TicketCustomRepository {
 
     @Query(value = "SELECT t FROM Ticket as t WHERE t.customer.id = :userId and t.avail = false OR t.showtime.avail = false")
     List<Ticket> findTicketByUserIdAndAvailFalse(@Param("userId") Integer userId);
+
+    @Query(value = "SELECT t FROM Ticket as t WHERE t.customer.id = :customerId")
+    List<Ticket> findTicketByCustomerId(@Param("customerId") Integer customerId);
 }

@@ -23,6 +23,16 @@ public class TicketRestController {
         return APIResponse.<Void>builder().status(202).message("Hello World").build();
     }
 
+    @GetMapping(value = "/all/{customerId}")
+    public APIResponse<List<TicketResponse>> getAllTickets(@PathVariable Integer customerId) {
+        if(customerId == null) {
+            return APIResponse.<List<TicketResponse>>builder().status(401).message("Unauthorized").build();
+        }else{
+            List<TicketResponse> ticketResponses = ticketService.getTicketByCustomerId(customerId);
+            return APIResponse.<List<TicketResponse>>builder().status(202).message("Success").data(ticketResponses).build();
+        }
+    }
+
     @GetMapping(value = "/avail")
     public APIResponse<List<TicketResponse>> getTicketAvail(@RequestHeader Map<String, String> headers) {
         String userIdString = headers.get("user-id");

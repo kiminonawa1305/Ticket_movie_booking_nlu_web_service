@@ -30,4 +30,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "chair_id")
     private Chair chair;
+
+    @Column
+    private double bookedPrice;
 }

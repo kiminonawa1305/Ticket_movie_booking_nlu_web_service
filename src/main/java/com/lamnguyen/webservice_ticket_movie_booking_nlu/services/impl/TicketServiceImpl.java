@@ -51,6 +51,15 @@ public class TicketServiceImpl implements TicketService {
         }).toList();
     }
 
+    @Override
+    public List<TicketResponse> getTicketByCustomerId(Integer customerId) {
+        List<Ticket> tickets = ticketRepository.findTicketByCustomerId(customerId);
+        RestTemplate restTemplate = new RestTemplate();
+        return tickets.stream().map(ticket -> {
+            return getTicketResponse(restTemplate, ticket);
+        }).toList();
+    }
+
     private TicketResponse getTicketResponse(RestTemplate restTemplate, Ticket ticket) {
         Showtime showtime = ticket.getShowtime();
         String restApiResponse = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + showtime.getMovie().getIdApi(), String.class);
@@ -66,6 +75,8 @@ public class TicketServiceImpl implements TicketService {
                 .startShowtime(showtime.getStart())
                 .nameRoom(room.getName())
                 .nameCinema(cinema.getName())
+                .bookedPrice(ticket.getBookedPrice())
+                .available(ticket.isAvail())
                 .build();
     }
 }
