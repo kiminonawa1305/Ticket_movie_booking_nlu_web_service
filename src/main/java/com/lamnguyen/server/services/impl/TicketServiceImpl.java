@@ -28,7 +28,7 @@ public class TicketServiceImpl implements TicketService {
     public Ticket buyTicket(Integer chairId, Integer customerId) {
         Showtime st = showtimeRepository.findByChairId(chairId);
         Chair chair = chairRepository.findChairById(chairId);
-        if (chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD.toString())) return null;
+        if (chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD)) return null;
         Ticket ticket = Ticket.builder()
                 .chair(Chair.builder().id(chairId).build())
                 .customer(Customer.builder().id(customerId).build())

@@ -19,8 +19,8 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ColumnDefault(value = "true")
-    private boolean avail;
+    @Column(columnDefinition="boolean default true")
+    private boolean avail = true;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
