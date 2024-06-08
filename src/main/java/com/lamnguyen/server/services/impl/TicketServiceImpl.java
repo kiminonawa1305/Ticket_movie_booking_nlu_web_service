@@ -80,7 +80,6 @@ public class TicketServiceImpl implements TicketService {
                 .startShowtime(showtime.getStart())
                 .nameRoom(room.getName())
                 .nameCinema(cinema.getName())
-                .bookedPrice(ticket.getBookedPrice())
                 .available(ticket.isAvail())
                 .build();
     }

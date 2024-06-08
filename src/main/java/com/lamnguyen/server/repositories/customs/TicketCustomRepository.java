@@ -16,4 +16,8 @@ public interface TicketCustomRepository {
 
     @Query(value = "SELECT t FROM Ticket as t WHERE t.id = :ticketId")
     Ticket findTicketById(@Param("ticketId") String ticketId);
+
+
+    @Query(value = "SELECT t FROM Ticket as t WHERE t.customer.id = :customerId")
+    List<Ticket> findTicketByCustomerId(@Param("customerId") Integer customerId);
 }
