@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShowtimeServiceImpl implements ShowtimeService {
     @Autowired
@@ -24,24 +26,15 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public Chair findByChairId(Integer showtimeId, Integer chairId) {
-        Showtime showtime = findById(showtimeId);
-        if (showtime != null) {
-            return showtime.getRoom().getChairs().stream().filter(chair -> chair.getId().equals(chairId)).findFirst().orElse(null);
-        }
-        return null;
+    public List<Showtime> findByMovieId(int id) {
+        return showtimeRepository.findByAvailIsTrueAndMovie_Id(id);
     }
+
 
     @Override
     public PriceBoardDTO getPriceBoard(Integer showtimeId) {
         PriceBoard priceBoard = showtimeRepository.findPriceBoard(showtimeId);
         return convert(priceBoard);
-    }
-
-    @Override
-    public Showtime findByChairId(Integer chairId) {
-//        return showtimeRepository.findByChairId(chairId);
-        return null;
     }
 
     private PriceBoardDTO convert(PriceBoard priceBoard) {

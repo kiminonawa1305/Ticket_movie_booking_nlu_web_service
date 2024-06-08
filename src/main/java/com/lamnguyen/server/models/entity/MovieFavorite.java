@@ -1,9 +1,17 @@
 package com.lamnguyen.server.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "movie_favorites")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MovieFavorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

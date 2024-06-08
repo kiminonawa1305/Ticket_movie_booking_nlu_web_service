@@ -46,21 +46,29 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
 
         RestTemplate restTemplate = new RestTemplate();
-        return movies.stream().map(movie -> {
-            String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + movie.getIdApi(), String.class);
-            MovieResponseRestApi restApi = new Gson().fromJson(data, MovieResponseRestApi.class);
-            MovieResponse response = MovieResponse.builder()
-                    .id(movie.getId())
-                    .title(restApi.getTitle())
-                    .poster(restApi.getPoster())
-                    .genre(restApi.getGenre())
-                    .duration(restApi.getRuntime())
-                    .vote(movie.getMovieReviews().size())
-                    .rate(rating(movie))
-                    .build();
-            return response;
-        }).toList();
+        return movies.stream().map(movie -> convertMovieResponseRestApiToMovieResponse(movie, getMovieResponseRestApi(movie.getIdApi()))).toList();
     }
+
+    @Override
+    public MovieResponseRestApi getMovieResponseRestApi(String idApi) {
+        RestTemplate restTemplate = new RestTemplate();
+        String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + idApi, String.class);
+        return new Gson().fromJson(data, MovieResponseRestApi.class);
+    }
+
+    @Override
+    public MovieResponse convertMovieResponseRestApiToMovieResponse(Movie movie, MovieResponseRestApi movieResponseRestApi) {
+        return MovieResponse.builder()
+                .id(movie.getId())
+                .title(movieResponseRestApi.getTitle())
+                .poster(movieResponseRestApi.getPoster())
+                .genre(movieResponseRestApi.getGenre())
+                .duration(movieResponseRestApi.getRuntime())
+                .vote(movie.getMovieReviews().size())
+                .rate(rating(movie))
+                .build();
+    }
+
 
     private double rating(Movie movie) {
         List<MovieReview> movieReviews = movie.getMovieReviews();
