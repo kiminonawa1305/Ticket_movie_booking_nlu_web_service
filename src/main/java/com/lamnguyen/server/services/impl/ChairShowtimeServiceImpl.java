@@ -58,6 +58,9 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
         chairShowTime.setStatus(chairUpdateRequest.getStatus());
         chairShowTime.setCustomer(Customer.builder().id(chairUpdateRequest.getUserId()).build());
         ChairShowtimeDTO chairUpdateDTO = convertToChairDTO(chairShowTime);
+        chairUpdateDTO.setUserId(chairUpdateRequest.getUserId());
+        chairUpdateDTO.setName(chairShowTime.getChair().getName());
+        chairUpdateDTO.setType(chairShowTime.getChair().getType());
         firebaseDatabase.getReference().child(chairUpdateRequest.getUuid()).setValueAsync(chairUpdateDTO);
         chairShowtimeRepository.saveAndFlush(chairShowTime);
         return convertToChairDTO(chairShowTime);
@@ -72,6 +75,11 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
         ChairShowtimeDTO dto;
         for (ChairShowTime chair : chairs) {
             dto = convertToChairDTO(chair);
+            dto.setName(chair.getChair().getName());
+            dto.setType(chair.getChair().getType());
+            if (chair.getCustomer() != null)
+                dto.setUserId(chair.getCustomer().getId());
+            dto.setType(chair.getChair().getType());
             result.add(dto);
         }
 
