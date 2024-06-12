@@ -22,6 +22,14 @@ public class Cinema {
     @Column(columnDefinition = "ENUM('Cinestar Sinh Viên (Bình Dương)', 'Gigamall Thủ Đức', 'Galaxy Co.opXtra Linh Trung', 'Co.opmart Xa Lộ Hà Nội')")
     @ColumnDefault("'Cinestar Sinh Viên (Bình Dương)'")
     private String name;
+
+    private String address;
+
+    @Column(name = "url_image")
+    private String urlImage;
+
+    @Column(name = "detail_address")
+    private String detailAddress;
     @OneToMany(mappedBy = "cinema")
     private List<Room> rooms;
 

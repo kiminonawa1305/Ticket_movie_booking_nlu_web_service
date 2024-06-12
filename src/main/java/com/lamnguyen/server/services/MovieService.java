@@ -2,6 +2,7 @@ package com.lamnguyen.server.services;
 
 import com.lamnguyen.server.models.dto.MovieDTO;
 import com.lamnguyen.server.models.entity.Movie;
+import com.lamnguyen.server.models.entity.Showtime;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 

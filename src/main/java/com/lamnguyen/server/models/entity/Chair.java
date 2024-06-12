@@ -23,17 +23,12 @@ public class Chair {
     @Column
     private String name;
 
-    @Column(name = "`status`", columnDefinition = "ENUM('AVAILABLE', 'SELECTED', 'SOLD')")
-    @Enumerated(EnumType.STRING)
-    private ChairStatus status;
-
     @Column(name = "`type`", columnDefinition = "ENUM('SINGLE', 'COUPLE', 'VIP')")
     @Enumerated(EnumType.STRING)
     private ChairType type;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @OneToMany(mappedBy = "chair")
+    private List<ChairShowTime> chairShowTimes;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

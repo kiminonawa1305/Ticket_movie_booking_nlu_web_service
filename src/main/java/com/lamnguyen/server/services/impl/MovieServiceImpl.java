@@ -6,6 +6,7 @@ import com.lamnguyen.server.converter.ConverterEntityToDTO;
 import com.lamnguyen.server.models.dto.MovieDTO;
 import com.lamnguyen.server.models.entity.Movie;
 import com.lamnguyen.server.models.entity.MovieReview;
+import com.lamnguyen.server.models.entity.Showtime;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 import com.lamnguyen.server.repositories.MovieRepository;
@@ -38,8 +39,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO findById(Integer id) {
-        return convertToDTO(movieRepository.findById(id).orElse(null));
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if (movie == null) return null;
+        return convertToDTO(movie);
     }
+
 
     @Override
     public List<MovieResponse> getMovieHasShowtime(LocalDate date) {
