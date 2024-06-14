@@ -6,11 +6,11 @@ import com.lamnguyen.server.converter.ConverterEntityToDTO;
 import com.lamnguyen.server.models.dto.MovieDTO;
 import com.lamnguyen.server.models.entity.Movie;
 import com.lamnguyen.server.models.entity.MovieReview;
-import com.lamnguyen.server.models.entity.Showtime;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 import com.lamnguyen.server.repositories.MovieRepository;
 import com.lamnguyen.server.services.MovieService;
+import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -46,10 +46,8 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public List<MovieResponse> getMovieHasShowtime(LocalDate date) {
-        List<Movie> movies = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
-
-        RestTemplate restTemplate = new RestTemplate();
+    public List<MovieResponse> getMovieHasShowtime(LocalDateTime date) {
+        List<Movie> movies = movieRepository.getMovieHasShowtime(date, LocalDateTime.of(date.toLocalDate(), LocalTime.MAX));
         return movies.stream().map(movie -> convertMovieResponseRestApiToMovieResponse(movie, getMovieResponseRestApi(movie.getIdApi()))).toList();
     }
 

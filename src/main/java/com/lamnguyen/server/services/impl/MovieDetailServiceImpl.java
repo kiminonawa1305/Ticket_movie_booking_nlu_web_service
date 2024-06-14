@@ -8,11 +8,15 @@ import com.lamnguyen.server.models.response.MovieDetailResponseRestApi;
 import com.lamnguyen.server.services.MovieDetailService;
 import com.lamnguyen.server.services.MovieService;
 import com.lamnguyen.server.services.ShowtimeService;
+import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MovieDetailServiceImpl implements MovieDetailService {
@@ -25,7 +29,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Override
     public MovieDetailResponse getMovieDetail(Integer id) {
         MovieDTO movie = movieService.findById(id);
-        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id);
+        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id, DateTimeFormat.generateStartDate(null));
         String key = movie.getIdApi();
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + key, String.class);
@@ -35,7 +39,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
                 .title(restApi.getTitle())
                 .poster(restApi.getPoster())
                 .vote(0)
-                .avail(showtimes.isEmpty() ? false : true)
+                .avail(showtimes != null && !showtimes.isEmpty())
                 .rate(5.0)
                 .duration(restApi.getRuntime())
                 .description(restApi.getPlot())

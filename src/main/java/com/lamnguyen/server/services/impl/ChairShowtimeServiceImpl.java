@@ -52,7 +52,9 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
         ChairShowTime chairShowTime = chairShowtimeRepository.findById(chairUpdateRequest.getChairId()).orElse(null);
         if (chairShowTime == null ||
                 chairShowTime.getStatus().equals(ChairStatus.SOLD) ||
-                chairShowTime.getCustomer() != null && chairShowTime.getStatus().equals(ChairStatus.SELECTED) && !chairShowTime.getCustomer().getId().equals(chairUpdateRequest.getUserId()))
+                (chairShowTime.getStatus().equals(ChairStatus.SELECTED) &&
+                        chairShowTime.getCustomer() != null &&
+                        !chairShowTime.getCustomer().getId().equals(chairUpdateRequest.getUserId())))
             return null;
 
         chairShowTime.setStatus(chairUpdateRequest.getStatus());

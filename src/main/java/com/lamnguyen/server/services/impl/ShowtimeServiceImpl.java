@@ -19,6 +19,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,14 +42,14 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public List<ShowtimeDTO> findShowTimeDTOByMovieId(int id) {
-        List<Showtime> showtimes = showtimeRepository.findByAvailIsTrueAndMovie_Id(id);
+    public List<ShowtimeDTO> findShowTimeDTOByMovieId(int id, LocalDateTime currentDate) {
+        List<Showtime> showtimes = showtimeRepository.findByAvailIsTrueAndStartBetweenAndMovie_Id(currentDate, LocalDateTime.of(currentDate.toLocalDate(), LocalTime.MAX), id);
         return showtimes.stream().map(this::convert).toList();
     }
 
     @Override
-    public List<ShowtimeByCinemaResponse> findShowtimeByCinema(int id) {
-        List<Showtime> showtimes = showtimeRepository.findByAvailIsTrueAndMovie_Id(id);
+    public List<ShowtimeByCinemaResponse> findShowtimeByCinema(int id, LocalDateTime currentDate) {
+        List<Showtime> showtimes = showtimeRepository.findByAvailIsTrueAndStartBetweenAndMovie_Id(currentDate, LocalDateTime.of(currentDate.toLocalDate(), LocalTime.MAX), id);
         Map<Integer, ShowtimeByCinemaResponse> showtimeMap = new HashMap<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         showtimes.forEach(showtime -> {
