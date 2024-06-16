@@ -1,12 +1,8 @@
 package com.lamnguyen.server.models.entity;
 
-import com.lamnguyen.server.enums.ChairStatus;
 import com.lamnguyen.server.enums.ChairType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -18,22 +14,17 @@ import java.util.List;
 @Data
 public class Chair {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
-
-    @Column(name = "`status`", columnDefinition = "ENUM('AVAILABLE', 'SELECTED', 'SOLD')")
-    @Enumerated(EnumType.STRING)
-    private ChairStatus status;
 
     @Column(name = "`type`", columnDefinition = "ENUM('SINGLE', 'COUPLE', 'VIP')")
     @Enumerated(EnumType.STRING)
     private ChairType type;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @OneToMany(mappedBy = "chair")
+    private List<ChairShowTime> chairShowTimes;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

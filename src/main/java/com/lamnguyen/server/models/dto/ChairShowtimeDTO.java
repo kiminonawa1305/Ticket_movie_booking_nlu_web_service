@@ -9,8 +9,10 @@ import java.io.Serializable;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ChairDTO implements Serializable {
+public class ChairShowtimeDTO implements Serializable {
     private Integer id;
     private String name;
+    private ChairStatus status;
     private ChairType type;
+    private Integer userId;
 }

@@ -12,6 +12,6 @@ public interface MovieCustomRepository {
 
     @Modifying
     @Query(value = "SELECT distinct st.movie FROM Showtime st " +
-            "WHERE st.start between :current_date AND :next_date")
-    List<Movie> getMovieHasShowtime(@Param("current_date") LocalDateTime currentDate, @Param("next_date") LocalDateTime nextDate);
+            "WHERE st.avail = true AND st.start between :current_date AND :end_date")
+    List<Movie> getMovieHasShowtime(@Param("current_date") LocalDateTime currentDate, @Param("end_date") LocalDateTime nextDate);
 }

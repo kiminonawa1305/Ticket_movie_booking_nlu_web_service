@@ -2,10 +2,12 @@ package com.lamnguyen.server.services;
 
 import com.lamnguyen.server.models.dto.MovieDTO;
 import com.lamnguyen.server.models.entity.Movie;
+import com.lamnguyen.server.models.entity.Showtime;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MovieService {
@@ -13,7 +15,7 @@ public interface MovieService {
 
     MovieDTO findById(Integer id);
 
-    List<MovieResponse> getMovieHasShowtime(LocalDate date);
+    List<MovieResponse> getMovieHasShowtime(LocalDateTime date);
 
     void insert(Movie movie);
 

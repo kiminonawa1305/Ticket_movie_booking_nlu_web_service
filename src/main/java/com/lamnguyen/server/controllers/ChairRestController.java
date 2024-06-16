@@ -2,11 +2,14 @@ package com.lamnguyen.server.controllers;
 
 
 import com.lamnguyen.server.models.dto.ChairDTO;
+import com.lamnguyen.server.models.dto.ChairShowtimeDTO;
 import com.lamnguyen.server.models.entity.Chair;
+import com.lamnguyen.server.models.entity.ChairShowTime;
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.ListChairResponse;
 import com.lamnguyen.server.requests.ChairUpdateRequest;
 import com.lamnguyen.server.services.ChairService;
+import com.lamnguyen.server.services.ChairShowtimeService;
 import com.lamnguyen.server.services.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = "/chair/api")
 public class ChairRestController {
     @Autowired
-    private ChairService chairService;
+    private ChairShowtimeService chairService;
     @Autowired
     private ShowtimeService showtimeService;
 
@@ -34,7 +37,7 @@ public class ChairRestController {
                 .message("Success")
                 .data(ListChairResponse.builder()
                         .uuid(uuid)
-                        .chairs(chairService.getChairStatus(showtimeId))
+                        .chairs(chairService.getChairShowtime(showtimeId))
                         .price(showtimeService.getPriceBoard(showtimeId))
                         .build())
                 .build();
@@ -42,14 +45,14 @@ public class ChairRestController {
 
     @PostMapping(value = "/update")
     public APIResponse<Void> updateChairStatus(@RequestBody ChairUpdateRequest chairUpdateRequest) {
-        ChairDTO chair = chairService.updateChairStatus(chairUpdateRequest);
-        if (chair == null) {
+        ChairShowtimeDTO chairShowtimeDTO = chairService.updateChairStatus(chairUpdateRequest);
+        if (chairShowtimeDTO == null) {
             return APIResponse.<Void>builder()
                     .status(500)
                     .message("Fail")
                     .build();
-
         }
+
         return APIResponse.<Void>builder()
                 .status(202)
                 .message("Success")
