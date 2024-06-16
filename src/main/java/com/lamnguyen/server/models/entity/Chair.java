@@ -30,6 +30,4 @@ public class Chair {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @OneToMany(mappedBy = "chair")
-    private List<Ticket> tickets;
 }

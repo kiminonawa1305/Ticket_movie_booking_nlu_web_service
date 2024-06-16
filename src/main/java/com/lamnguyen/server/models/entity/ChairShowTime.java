@@ -33,4 +33,7 @@ public class ChairShowTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "showtime_id")
     private Showtime showtime;
+
+    @OneToMany(mappedBy = "chairShowTime")
+    private List<Ticket> tickets;
 }

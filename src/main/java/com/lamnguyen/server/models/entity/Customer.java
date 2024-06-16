@@ -19,6 +19,9 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String apiId;
+    private String fullName;
+    private String email;
+    private String phone;
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
 

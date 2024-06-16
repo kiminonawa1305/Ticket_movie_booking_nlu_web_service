@@ -13,12 +13,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public Customer register(String apiId) {
-        return customerRepository.saveAndFlush(Customer.builder().apiId(apiId).build());
+    public Customer register(Customer customer) {
+        return customerRepository.saveAndFlush(customer);
     }
 
     @Override
     public Customer findCustomer(String apiId) {
-        return  customerRepository.findByApiId(apiId);
+        return customerRepository.findByApiId(apiId);
     }
 }

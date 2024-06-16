@@ -1,6 +1,7 @@
 package com.lamnguyen.server.services;
 
 import com.lamnguyen.server.models.entity.Ticket;
+import com.lamnguyen.server.models.response.TicketDetailResponse;
 import com.lamnguyen.server.models.response.TicketResponse;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface TicketService {
     List<TicketResponse> getTicketNonAvail(Integer userId);
 
     List<TicketResponse> getTicketByCustomerId(Integer customerId);
+
+    TicketDetailResponse getTicketDetailById(String ticketId);
 }
