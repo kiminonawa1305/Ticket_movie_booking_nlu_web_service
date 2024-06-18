@@ -37,6 +37,7 @@ public class TicketServiceImpl implements TicketService {
                 .chairShowTime(ChairShowTime.builder().id(chairId).build())
                 .customer(Customer.builder().id(customerId).build())
                 .showtime(st)
+                .avail(true)
                 .build();
 
         chair.setStatus(ChairStatus.SOLD);

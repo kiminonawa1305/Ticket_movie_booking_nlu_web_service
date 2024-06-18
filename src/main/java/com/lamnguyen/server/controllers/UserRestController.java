@@ -1,9 +1,11 @@
 package com.lamnguyen.server.controllers;
 
 
+import com.lamnguyen.server.models.dto.CustomerDTO;
 import com.lamnguyen.server.models.entity.Customer;
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.services.CustomerService;
+import com.lamnguyen.server.exceptions.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,25 +21,24 @@ public class UserRestController {
     private CustomerService service;
 
     @PostMapping(value = "/check")
-    public APIResponse<Integer> findCustomer(@RequestBody Map<String, String> body) {
+    public APIResponse<CustomerDTO> findCustomer(@RequestBody Map<String, String> body) {
         String apiId = body.get("apiId");
-        Customer customer = service.findCustomer(apiId);
-        if (customer == null) throw new NullPointerException("Cannot register user");
-        return APIResponse.<Integer>builder()
+        CustomerDTO customer = service.findCustomer(apiId);
+        return APIResponse.<CustomerDTO>builder()
                 .message("exit!")
                 .status(202)
-                .data(customer.getId())
+                .data(customer)
                 .build();
     }
 
     @PostMapping(value = "/register")
-    public APIResponse<Integer> register(@RequestBody Customer customer) {
-        Customer register = service.register(customer);
+    public APIResponse<CustomerDTO> register(@RequestBody Customer customer) {
+        CustomerDTO register = service.register(customer);
         if (register == null) throw new NullPointerException("Cannot register user");
-        return APIResponse.<Integer>builder()
+        return APIResponse.<CustomerDTO>builder()
                 .message("Register successfully")
                 .status(202)
-                .data(register.getId())
+                .data(register)
                 .build();
     }
 }

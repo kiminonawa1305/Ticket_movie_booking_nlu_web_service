@@ -1,9 +1,10 @@
 package com.lamnguyen.server.services;
 
+import com.lamnguyen.server.models.dto.CustomerDTO;
 import com.lamnguyen.server.models.entity.Customer;
 
 public interface CustomerService {
-    Customer register(Customer customer);
+    CustomerDTO register(Customer customer);
 
-    Customer findCustomer(String apiId);
+    CustomerDTO findCustomer(String apiId);
 }

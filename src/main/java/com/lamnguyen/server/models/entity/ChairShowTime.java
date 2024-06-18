@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class ChairShowTime {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "`status`", columnDefinition = "ENUM('AVAILABLE', 'SELECTED', 'SOLD')")

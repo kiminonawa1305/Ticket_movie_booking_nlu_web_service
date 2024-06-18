@@ -1,14 +1,22 @@
 package com.lamnguyen.server.models.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
+import java.io.Serializable;
+
+/**
+ * DTO for {@link com.lamnguyen.server.models.entity.Customer}
+ */
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDTO implements Serializable {
-    private Integer id;
-    private String name;
-    private String avatar;
-    private String background;
-    private String email;
-    private List<TicketDTO> tickets;
-    private List<MovieReviewDTO> movieReviews;
+    Integer id;
+    String apiId;
+    String fullName;
+    String email;
+    String phone;
 }
