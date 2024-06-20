@@ -6,10 +6,12 @@ import com.lamnguyen.server.models.response.MovieDetailResponse;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.services.MovieDetailService;
 import com.lamnguyen.server.services.MovieService;
+import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +26,7 @@ public class MovieRestController {
     @GetMapping(value = "/showtime")
     public APIResponse<List<MovieResponse>> getMovieShow(@RequestParam Map<String, Object> args) {
         String dateStr = (String) args.get("date");
-        LocalDate date;
-        if (dateStr != null) date = LocalDate.parse(dateStr);
-        else date = LocalDate.now();
+        LocalDateTime date = DateTimeFormat.generateStartDate(dateStr);
         List<MovieResponse> movies = movieService.getMovieHasShowtime(date);
         return APIResponse.<List<MovieResponse>>builder()
                 .status(202)

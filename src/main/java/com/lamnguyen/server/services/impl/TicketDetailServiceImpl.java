@@ -22,7 +22,7 @@ public class TicketDetailServiceImpl implements TicketDetailService {
 
     @Override
     public TicketDetailResponse getTicketDetailById(String ticketId) {
-        Ticket ticket = ticketRepository.findTicketById(ticketId);
+        Ticket ticket = ticketRepository.findById(ticketId).orElse(null);
         RestTemplate restTemplate = new RestTemplate();
         return getTicketResponse(restTemplate, ticket);
     }

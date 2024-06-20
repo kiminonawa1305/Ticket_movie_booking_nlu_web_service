@@ -11,4 +11,6 @@ public interface TicketService {
     List<TicketResponse> getTicketAvail(Integer userId);
 
     List<TicketResponse> getTicketNonAvail(Integer userId);
+
+    List<TicketResponse> getTicketByCustomerId(Integer customerId);
 }

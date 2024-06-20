@@ -3,6 +3,7 @@ package com.lamnguyen.server.controllers;
 import com.lamnguyen.server.models.entity.MovieFavorite;
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.MovieDetailResponse;
+import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.services.MovieDetailService;
 import com.lamnguyen.server.services.MovieFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/movie-favourite/api")
 public class MovieFavoriteController {
     @Autowired
     private MovieFavoriteService movieFavoriteService;
 
-    @Autowired
-    private MovieDetailService movieDetailService;
+    @GetMapping("/{customerId}")
+    public APIResponse<List<MovieResponse>> getListFavoriteMoviesDetailByCustomerId(@PathVariable("customerId") Integer customerId) {
+        List<MovieResponse> favorites = movieFavoriteService.getFavoriteMoviesByCustomerId(customerId);
 
-    List<APIResponse<MovieDetailResponse>> result = new ArrayList<>();
-
-    @GetMapping("/customers/{customerId}/favorites")
-    public APIResponse<MovieDetailResponse> getFavoriteMoviesDetailByCustomerId(@PathVariable("customerId") Integer customerId) {
-//        List<Integer> favorites = movieFavoriteService.getFavoriteMoviesByCustomerId(customerId);
-        MovieDetailResponse result = movieDetailService.getMovieDetail(customerId);
-        return APIResponse.<MovieDetailResponse>builder()
-                .status(202).message("Success")
-                .data(result)
+        return APIResponse.<List<MovieResponse>>builder()
+                .status(202)
+                .message("success")
+                .data(favorites)
                 .build();
-    }
-
-    @GetMapping("/customers/favoriteList/{customerId}")
-    public List<APIResponse<MovieDetailResponse>> getListFavoriteMoviesDetailByCustomerId(@PathVariable("customerId") Integer customerId) {
-
-        List<Integer> favorites = movieFavoriteService.getFavoriteMoviesByCustomerId(customerId);
-
-        for (Integer movieId : favorites) {
-            APIResponse<MovieDetailResponse> favoriteDetail = getFavoriteMoviesDetailByCustomerId(movieId);
-            result.add(favoriteDetail);
-        }
-        return result;
     }
 }

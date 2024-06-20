@@ -27,41 +27,6 @@ public class ChairServiceImpl implements ChairService {
     ConverterEntityToDTO converterEntityToDTO;
 
 
-    @Override
-    public String createKeyChairStatus(Integer showtimeId) {
-        String key = firebaseDatabase.getReference(URL).child(String.valueOf(showtimeId)).getKey();
-        if (key != null)
-            return URL + "/" + key;
-        firebaseDatabase.getReference().child(URL).child(String.valueOf(showtimeId)).setValueAsync(null);
-        return URL + "/" + showtimeId;
-    }
-
-    @Override
-    public List<ChairDTO> getChairStatus(Integer showtimeId) {
-        List<Chair> chairs = showtimeService.findById(showtimeId).getRoom().getChairs();
-        return convert(chairs);
-    }
-
-    @Override
-    public ChairDTO updateChairStatus(ChairUpdateRequest chairUpdateRequest) {
-        Chair chair = chairRepository.findById(chairUpdateRequest.getChairId()).orElse(null);
-        if (chair == null ||
-                chair.getStatus().equals(ChairStatus.SOLD) ||
-                chair.getCustomer() != null && chair.getStatus().equals(ChairStatus.SELECTED) && !chair.getCustomer().getId().equals(chairUpdateRequest.getUserId()))
-            return null;
-
-        chair.setStatus(chairUpdateRequest.getStatus());
-        chair.setCustomer(Customer.builder().id(chairUpdateRequest.getUserId()).build());
-        ChairDTO chairUpdateDTO = convertToChairDTO(chair);
-        firebaseDatabase.getReference().child(chairUpdateRequest.getUuid()).setValueAsync(chairUpdateDTO);
-        chairRepository.saveAndFlush(chair);
-        return convertToChairDTO(chair);
-    }
-
-    public void disconnectKeyChairStatus() {
-        firebaseDatabase.getReference().child("").removeValueAsync();
-    }
-
     private List<ChairDTO> convert(List<Chair> chairs) {
         List<ChairDTO> result = new ArrayList<>();
         ChairDTO dto;
@@ -74,9 +39,6 @@ public class ChairServiceImpl implements ChairService {
     }
 
     private ChairDTO convertToChairDTO(Chair chair) {
-        ChairDTO chairDTO = converterEntityToDTO.convertToChairDTO(chair);
-        if (chair.getCustomer() != null)
-            chairDTO.setUserId(chair.getCustomer().getId());
-        return chairDTO;
+        return converterEntityToDTO.convertToChairDTO(chair);
     }
 }

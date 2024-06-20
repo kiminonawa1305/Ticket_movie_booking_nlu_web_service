@@ -10,6 +10,7 @@ import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 import com.lamnguyen.server.repositories.MovieRepository;
 import com.lamnguyen.server.services.MovieService;
+import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,29 +39,38 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO findById(Integer id) {
-        return convertToDTO(movieRepository.findById(id).orElse(null));
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if (movie == null) return null;
+        return convertToDTO(movie);
+    }
+
+
+    @Override
+    public List<MovieResponse> getMovieHasShowtime(LocalDateTime date) {
+        List<Movie> movies = movieRepository.getMovieHasShowtime(date, LocalDateTime.of(date.toLocalDate(), LocalTime.MAX));
+        return movies.stream().map(movie -> convertMovieResponseRestApiToMovieResponse(movie, getMovieResponseRestApi(movie.getIdApi()))).toList();
     }
 
     @Override
-    public List<MovieResponse> getMovieHasShowtime(LocalDate date) {
-        List<Movie> movies = movieRepository.getMovieHasShowtime(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
-
+    public MovieResponseRestApi getMovieResponseRestApi(String idApi) {
         RestTemplate restTemplate = new RestTemplate();
-        return movies.stream().map(movie -> {
-            String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + movie.getIdApi(), String.class);
-            MovieResponseRestApi restApi = new Gson().fromJson(data, MovieResponseRestApi.class);
-            MovieResponse response = MovieResponse.builder()
-                    .id(movie.getId())
-                    .title(restApi.getTitle())
-                    .poster(restApi.getPoster())
-                    .genre(restApi.getGenre())
-                    .duration(restApi.getRuntime())
-                    .vote(movie.getMovieReviews().size())
-                    .rate(rating(movie))
-                    .build();
-            return response;
-        }).toList();
+        String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + idApi, String.class);
+        return new Gson().fromJson(data, MovieResponseRestApi.class);
     }
+
+    @Override
+    public MovieResponse convertMovieResponseRestApiToMovieResponse(Movie movie, MovieResponseRestApi movieResponseRestApi) {
+        return MovieResponse.builder()
+                .id(movie.getId())
+                .title(movieResponseRestApi.getTitle())
+                .poster(movieResponseRestApi.getPoster())
+                .genre(movieResponseRestApi.getGenre())
+                .duration(movieResponseRestApi.getRuntime())
+                .vote(movie.getMovieReviews().size())
+                .rate(rating(movie))
+                .build();
+    }
+
 
     private double rating(Movie movie) {
         List<MovieReview> movieReviews = movie.getMovieReviews();

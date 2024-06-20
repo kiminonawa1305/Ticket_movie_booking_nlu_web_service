@@ -28,6 +28,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<MovieFavorite> movieFavorites;
 
-    @OneToOne(mappedBy = "customer")
-    private Chair chair;
+    @OneToMany(mappedBy = "customer")
+    private List<ChairShowTime> chairShowTime;
 }

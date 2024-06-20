@@ -6,6 +6,7 @@ import com.lamnguyen.server.enums.ChairStatus;
 import com.lamnguyen.server.models.entity.*;
 import com.lamnguyen.server.models.response.TicketResponse;
 import com.lamnguyen.server.repositories.ChairRepository;
+import com.lamnguyen.server.repositories.ChairShowtimeRepository;
 import com.lamnguyen.server.repositories.ShowtimeRepository;
 import com.lamnguyen.server.repositories.TicketRepository;
 import com.lamnguyen.server.services.TicketService;
@@ -23,24 +24,30 @@ public class TicketServiceImpl implements TicketService {
     private ChairRepository chairRepository;
     @Autowired
     private ShowtimeRepository showtimeRepository;
+    @Autowired
+    private ChairShowtimeRepository chairShowtimeRepository;
 
     @Override
     public Ticket buyTicket(Integer chairId, Integer customerId) {
-        Showtime st = showtimeRepository.findByChairId(chairId);
-        Chair chair = chairRepository.findChairById(chairId);
+        Showtime st = showtimeRepository.findByChairShowtimeId(chairId);
+        ChairShowTime chair = chairShowtimeRepository.findById(chairId).orElse(null);
         if (chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD)) return null;
         Ticket ticket = Ticket.builder()
                 .chair(Chair.builder().id(chairId).build())
                 .customer(Customer.builder().id(customerId).build())
                 .showtime(st)
                 .build();
-        chairRepository.updateById(chairId, ChairStatus.SOLD);
+
+        chairShowtimeRepository.saveAndFlush(ChairShowTime.builder()
+                .id(chairId)
+                .status(ChairStatus.SOLD)
+                .build());
         return ticketRepository.saveAndFlush(ticket);
     }
 
     @Override
     public List<TicketResponse> getTicketAvail(Integer userId) {
-        List<Ticket> tickets = ticketRepository.findTicketByUserIdAndAvailTrue(userId);
+        List<Ticket> tickets = ticketRepository.findByAvailIsTrueAndShowtime_AvailIsTrueAndCustomer_Id(userId);
         RestTemplate restTemplate = new RestTemplate();
         return tickets.stream().map(ticket -> {
             return getTicketResponse(restTemplate, ticket);
@@ -49,7 +56,16 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketResponse> getTicketNonAvail(Integer userId) {
-        List<Ticket> tickets = ticketRepository.findTicketByUserIdAndAvailFalse(userId);
+        List<Ticket> tickets = ticketRepository.findByAvailIsFalseAndCustomer_Id(userId);
+        RestTemplate restTemplate = new RestTemplate();
+        return tickets.stream().map(ticket -> {
+            return getTicketResponse(restTemplate, ticket);
+        }).toList();
+    }
+
+    @Override
+    public List<TicketResponse> getTicketByCustomerId(Integer customerId) {
+        List<Ticket> tickets = ticketRepository.findByCustomer_Id(customerId);
         RestTemplate restTemplate = new RestTemplate();
         return tickets.stream().map(ticket -> {
             return getTicketResponse(restTemplate, ticket);
@@ -71,6 +87,7 @@ public class TicketServiceImpl implements TicketService {
                 .startShowtime(showtime.getStart())
                 .nameRoom(room.getName())
                 .nameCinema(cinema.getName())
+                .available(ticket.isAvail())
                 .build();
     }
 }
