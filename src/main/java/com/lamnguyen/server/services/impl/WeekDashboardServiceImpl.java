@@ -17,8 +17,6 @@ import java.util.Map;
 @Service("WeekDashboardServiceImpl")
 public class WeekDashboardServiceImpl extends DashboardServiceImpl {
     @Autowired
-    private TicketRepository ticketRepository;
-    @Autowired
     private ChairRepository chairRepository;
     @Autowired
     private CinemaRepository cinemaRepository;
@@ -48,7 +46,6 @@ public class WeekDashboardServiceImpl extends DashboardServiceImpl {
             PriceBoard priceBoard = priceBoardRepository.findPriceBoardByCinema_Id(cinema.getId());
 
             DayOfWeek dayOfWeek = ticket.getShowtime().getStart().getDayOfWeek();
-            System.out.println(dayOfWeek);
             switch (dayOfWeek) {
                 case MONDAY:
                     totalMonday += calculateRevenue(chairType, priceBoard);
@@ -74,13 +71,13 @@ public class WeekDashboardServiceImpl extends DashboardServiceImpl {
 
             }
         }
-        revenueByPeriod.put("Monday", totalMonday);
-        revenueByPeriod.put("Tuesday", totalTuesday);
-        revenueByPeriod.put("Wednesday", totalWednesday);
-        revenueByPeriod.put("Thursday", totalThursday);
-        revenueByPeriod.put("Friday", totalFriday);
-        revenueByPeriod.put("Saturday", totalSaturday);
-        revenueByPeriod.put("Sunday", totalSunday);
+        revenueByPeriod.put("MONDAY", totalMonday);
+        revenueByPeriod.put("TUESDAY", totalTuesday);
+        revenueByPeriod.put("WEDNESDAY", totalWednesday);
+        revenueByPeriod.put("THURSDAY", totalThursday);
+        revenueByPeriod.put("FRIDAY", totalFriday);
+        revenueByPeriod.put("SATURDAY", totalSaturday);
+        revenueByPeriod.put("SUNDAY", totalSunday);
         return revenueByPeriod;
     }
 
@@ -120,13 +117,13 @@ public class WeekDashboardServiceImpl extends DashboardServiceImpl {
                     break;
             }
         }
-        numOfTicketByPeriod.put("Monday", totalMonday);
-        numOfTicketByPeriod.put("Tuesday", totalTuesday);
-        numOfTicketByPeriod.put("Wednesday", totalWednesday);
-        numOfTicketByPeriod.put("Thursday", totalThursday);
-        numOfTicketByPeriod.put("Friday", totalFriday);
-        numOfTicketByPeriod.put("Saturday", totalSaturday);
-        numOfTicketByPeriod.put("Sunday", totalSunday);
+        numOfTicketByPeriod.put("MONDAY", totalMonday);
+        numOfTicketByPeriod.put("TUESDAY", totalTuesday);
+        numOfTicketByPeriod.put("WEDNESDAY", totalWednesday);
+        numOfTicketByPeriod.put("THURSDAY", totalThursday);
+        numOfTicketByPeriod.put("FRIDAY", totalFriday);
+        numOfTicketByPeriod.put("SATURDAY", totalSaturday);
+        numOfTicketByPeriod.put("SUNDAY", totalSunday);
 
         return numOfTicketByPeriod;
     }

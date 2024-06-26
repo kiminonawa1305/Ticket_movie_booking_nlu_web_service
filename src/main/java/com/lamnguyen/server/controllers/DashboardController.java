@@ -55,7 +55,6 @@ public class DashboardController {
                 System.out.println("Invalid time type");
                 break;
         }
-//        DashboardResponse dashboardResponse = dashboardService.getDashboardData(from, to, cinemaId);
 
         return APIResponse.<DashboardResponse>builder()
                 .status(200)

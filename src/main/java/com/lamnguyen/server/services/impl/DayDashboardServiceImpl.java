@@ -17,8 +17,6 @@ import java.util.Map;
 @Service("DayDashboardServiceImpl")
 public class DayDashboardServiceImpl extends DashboardServiceImpl {
     @Autowired
-    private TicketRepository ticketRepository;
-    @Autowired
     private ChairRepository chairRepository;
     @Autowired
     private CinemaRepository cinemaRepository;
@@ -63,11 +61,11 @@ public class DayDashboardServiceImpl extends DashboardServiceImpl {
                     break;
             }
         }
-        revenueByPeriod.put("Morning", totalMorning);
-        revenueByPeriod.put("Afternoon", totalAfternoon);
-        revenueByPeriod.put("Evening", totalEvening);
-        revenueByPeriod.put("Night", totalNight);
-        revenueByPeriod.put("Noon", totalNoon);
+        revenueByPeriod.put("MORNING", totalMorning);
+        revenueByPeriod.put("AFTERNOON", totalAfternoon);
+        revenueByPeriod.put("EVENING", totalEvening);
+        revenueByPeriod.put("NIGHT", totalNight);
+        revenueByPeriod.put("NOON", totalNoon);
         return revenueByPeriod;
     }
 
@@ -101,11 +99,11 @@ public class DayDashboardServiceImpl extends DashboardServiceImpl {
                     break;
             }
         }
-        numOfTicketByPeriod.put("Morning", totalMorning);
-        numOfTicketByPeriod.put("Afternoon", totalAfternoon);
-        numOfTicketByPeriod.put("Evening", totalEvening);
-        numOfTicketByPeriod.put("Night", totalNight);
-        numOfTicketByPeriod.put("Noon", totalNoon);
+        numOfTicketByPeriod.put("MORNING", totalMorning);
+        numOfTicketByPeriod.put("AFTERNOON", totalAfternoon);
+        numOfTicketByPeriod.put("EVENING", totalEvening);
+        numOfTicketByPeriod.put("NIGHT", totalNight);
+        numOfTicketByPeriod.put("NOON", totalNoon);
         return numOfTicketByPeriod;
     }
 }
