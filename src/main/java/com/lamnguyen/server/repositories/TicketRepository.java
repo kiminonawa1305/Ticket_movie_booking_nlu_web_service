@@ -18,5 +18,5 @@ public interface TicketRepository extends JpaRepository<Ticket, String>, TicketC
 
     List<Ticket> findByCustomer_Id(Integer customerId);
 
-    List<Ticket> findTicketByShowtime_StartBetween(LocalDateTime from, LocalDateTime to);
+    List<Ticket> findTicketByShowtime_StartBetweenAndChair_Room_Cinema_Id(LocalDateTime from, LocalDateTime to, Integer cinemaId);
 }

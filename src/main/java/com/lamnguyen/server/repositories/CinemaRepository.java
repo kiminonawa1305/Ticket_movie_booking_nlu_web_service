@@ -5,4 +5,5 @@ import com.lamnguyen.server.models.entity.PriceBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CinemaRepository extends JpaRepository<Cinema, Long> {
+    Cinema findCinemaById(Integer id);
 }
