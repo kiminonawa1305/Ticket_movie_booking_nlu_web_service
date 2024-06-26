@@ -19,9 +19,7 @@ public class DashboardController {
     private DashboardServiceImpl dashboardService;
     @GetMapping(value = "/time")
     public APIResponse<DashboardResponse> getDashboardData(@RequestParam String from, @RequestParam String to, @RequestParam int cinemaId) {
-        LocalDateTime fromTime = DateTimeFormat.convertStringToLocalDateTime(from);
-        LocalDateTime toTime = DateTimeFormat.convertStringToLocalDateTime(to);
-        DashboardResponse dashboardResponse = dashboardService.getDashboardData(fromTime, toTime, cinemaId);
+        DashboardResponse dashboardResponse = dashboardService.getDashboardData(from, to, cinemaId);
 
         return APIResponse.<DashboardResponse>builder()
                 .status(200)

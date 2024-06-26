@@ -5,5 +5,5 @@ import com.lamnguyen.server.models.response.DashboardResponse;
 import java.time.LocalDateTime;
 
 public interface DashboardService {
-    DashboardResponse getDashboardData(LocalDateTime from, LocalDateTime to, int cinemaId);
+    DashboardResponse getDashboardData(String from, String to, int cinemaId);
 }
