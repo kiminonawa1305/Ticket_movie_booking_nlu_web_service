@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PriceBoardRepository extends JpaRepository<PriceBoard, Integer>, PriceBoardCustomerRepository {
-    
+    PriceBoard findPriceBoardByCinema_Id(Integer cinemaId);
 }
