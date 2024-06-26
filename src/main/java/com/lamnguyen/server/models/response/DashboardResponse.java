@@ -14,6 +14,6 @@ import java.util.Map;
 public class DashboardResponse {
     private int totalNumOfTickets;
     private Map<String, Integer> numOfTickets;
-    private Map<String, Integer> revenue;
+    private Map<String, Double> revenue;
     private double totalRevenue;
 }
