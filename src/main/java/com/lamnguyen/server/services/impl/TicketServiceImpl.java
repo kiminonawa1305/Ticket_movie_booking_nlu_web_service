@@ -3,6 +3,7 @@ package com.lamnguyen.server.services.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.lamnguyen.server.enums.ChairStatus;
+import com.lamnguyen.server.enums.ChairType;
 import com.lamnguyen.server.models.entity.*;
 import com.lamnguyen.server.models.response.TicketDetailResponse;
 import com.lamnguyen.server.models.response.TicketResponse;
@@ -33,10 +34,14 @@ public class TicketServiceImpl implements TicketService {
         Showtime st = showtimeRepository.findByChairShowtimeId(chairId);
         ChairShowTime chair = chairShowtimeRepository.findById(chairId).orElse(null);
         if (chair != null && chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD)) return null;
+        PriceBoard priceBoard = chair.getChair().getRoom().getCinema().getPriceBoard();
         Ticket ticket = Ticket.builder()
                 .chairShowTime(ChairShowTime.builder().id(chairId).build())
                 .customer(Customer.builder().id(customerId).build())
                 .showtime(st)
+                .price(chair.getChair().getType().equals(ChairType.VIP) ? priceBoard.getVip() :
+                        chair.getChair().getType().equals(ChairType.COUPLE) ? priceBoard.getCouple() :
+                                priceBoard.getSingle())
                 .avail(true)
                 .build();
 
