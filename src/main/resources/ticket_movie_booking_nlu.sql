@@ -1,3 +1,4 @@
+-- create database ticket_movie_booking_nlu;
 /*
  Navicat Premium Data Transfer
 
