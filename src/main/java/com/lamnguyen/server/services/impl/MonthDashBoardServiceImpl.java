@@ -65,7 +65,7 @@ public class MonthDashBoardServiceImpl extends DashboardServiceImpl {
         revenueByPeriod.put("SECOND_WEEK", totalSecondWeek);
         revenueByPeriod.put("THIRD_WEEK" , totalThirdWeek);
         revenueByPeriod.put("FOURTH_WEEK", totalFourthWeek);
-        revenueByPeriod.put("FIVE_WEEK", totalFiveWeek);
+        revenueByPeriod.put("FIFTH_WEEK", totalFiveWeek);
 
         return revenueByPeriod;
     }
@@ -103,7 +103,7 @@ public class MonthDashBoardServiceImpl extends DashboardServiceImpl {
         numOfTicketByPeriod.put("SECOND_WEEK", totalSecondWeek);
         numOfTicketByPeriod.put("THIRD_WEEK", totalThirdWeek);
         numOfTicketByPeriod.put("FOURTH_WEEK", totalFourthWeek);
-        numOfTicketByPeriod.put("FIVE_WEEK", totalFiveWeek);
+        numOfTicketByPeriod.put("FIFTH_WEEK", totalFiveWeek);
 
         return numOfTicketByPeriod;
     }
