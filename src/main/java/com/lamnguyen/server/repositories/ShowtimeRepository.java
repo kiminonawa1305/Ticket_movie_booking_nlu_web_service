@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer>, ShowtimeCustomRepository {
     List<Showtime> findByAvailIsTrueAndStartBetweenAndMovie_Id(LocalDateTime currentDate, LocalDateTime endDate, int id);
+
 }

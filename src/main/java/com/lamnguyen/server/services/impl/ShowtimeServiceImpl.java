@@ -43,6 +43,11 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private ModelMapper modelMapper;
 
     @Override
+    public List<Showtime> getAllShowtime() {
+        return showtimeRepository.findAll();
+    }
+
+    @Override
     public Showtime findById(int id) {
         return showtimeRepository.findById(id).orElse(null);
     }
