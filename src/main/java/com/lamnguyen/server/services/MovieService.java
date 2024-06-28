@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MovieService {
-    List<MovieDTO> findAll();
+
+    List<MovieResponse> getAllMovies();
 
     MovieDTO findById(Integer id);
 
     List<MovieResponse> getMovieHasShowtime(LocalDateTime date);
 
-    void insert(Movie movie);
+    Movie insert(Movie movie);
 
     MovieResponseRestApi getMovieResponseRestApi(String idApi);
 

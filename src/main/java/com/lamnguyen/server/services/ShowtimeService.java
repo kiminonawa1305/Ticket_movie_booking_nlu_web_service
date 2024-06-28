@@ -17,4 +17,6 @@ public interface ShowtimeService {
     List<ShowtimeByCinemaResponse> findShowtimeByCinema(int id, LocalDateTime currentDate);
 
     PriceBoardDTO getPriceBoard(Integer showtimeId);
+
+    Showtime addShowtime(ShowtimeDTO showtimeDTO);
 }

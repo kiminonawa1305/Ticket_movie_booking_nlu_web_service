@@ -6,12 +6,12 @@ import com.lamnguyen.server.models.dto.PriceBoardDTO;
 import com.lamnguyen.server.models.dto.ShowtimeDTO;
 import com.lamnguyen.server.models.dto.ShowtimeByCinemaResponse;
 import com.lamnguyen.server.models.dto.TimeSeat;
-import com.lamnguyen.server.models.entity.Cinema;
-import com.lamnguyen.server.models.entity.Movie;
-import com.lamnguyen.server.models.entity.PriceBoard;
-import com.lamnguyen.server.models.entity.Showtime;
+import com.lamnguyen.server.models.entity.*;
 import com.lamnguyen.server.models.response.MovieDetailResponseRestApi;
+import com.lamnguyen.server.repositories.MovieRepository;
+import com.lamnguyen.server.repositories.RoomRepository;
 import com.lamnguyen.server.repositories.ShowtimeRepository;
+import com.lamnguyen.server.services.CinemaService;
 import com.lamnguyen.server.services.ShowtimeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,12 @@ import java.util.Map;
 public class ShowtimeServiceImpl implements ShowtimeService {
     @Autowired
     private ShowtimeRepository showtimeRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -94,6 +100,24 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         PriceBoard priceBoard = showtimeRepository.findPriceBoard(showtimeId);
         return convert(priceBoard);
     }
+
+    @Override
+    public Showtime addShowtime(ShowtimeDTO showtimeDTO) {
+        Movie movie = movieRepository.findById(showtimeDTO.getMovieId())
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+        Room room = roomRepository.findById(showtimeDTO.getRoomId())
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+
+        Showtime showtime = Showtime.builder()
+                .start(showtimeDTO.getStart())
+                .avail(showtimeDTO.isAvail())
+                .movie(movie)
+                .room(room)
+                .build();
+
+        return showtimeRepository.save(showtime);
+    }
+
 
     private ShowtimeDTO convert(Showtime showtime) {
         return modelMapper.map(showtime, ShowtimeDTO.class);

@@ -33,8 +33,9 @@ public class MovieServiceImpl implements MovieService {
     private ConverterDTOToResponse converterDTOToResponse;
 
     @Override
-    public List<MovieDTO> findAll() {
-        return convertToDTO(movieRepository.findAll());
+    public List<MovieResponse> getAllMovies() {
+        List<Movie> movies = movieRepository.findAll();
+        return movies.stream().map(movie -> convertMovieResponseRestApiToMovieResponse(movie, getMovieResponseRestApi(movie.getIdApi()))).toList();
     }
 
     @Override
@@ -79,8 +80,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void insert(Movie movie) {
-        movieRepository.save(movie);
+    public Movie insert(Movie movie) {
+        return movieRepository.save(movie);
     }
 
     private MovieDTO convertToDTO(Movie movie) {
