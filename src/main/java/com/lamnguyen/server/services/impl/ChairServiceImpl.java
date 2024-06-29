@@ -2,12 +2,9 @@ package com.lamnguyen.server.services.impl;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.lamnguyen.server.converter.ConverterEntityToDTO;
-import com.lamnguyen.server.enums.ChairStatus;
 import com.lamnguyen.server.models.dto.ChairDTO;
 import com.lamnguyen.server.models.entity.Chair;
-import com.lamnguyen.server.models.entity.Customer;
 import com.lamnguyen.server.repositories.ChairRepository;
-import com.lamnguyen.server.requests.ChairUpdateRequest;
 import com.lamnguyen.server.services.ChairService;
 import com.lamnguyen.server.services.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
