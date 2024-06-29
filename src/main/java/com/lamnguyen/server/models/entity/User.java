@@ -5,29 +5,37 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Customer {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String apiId;
-    @OneToMany(mappedBy = "customer")
+    private String fullName;
+    private String email;
+    private String phone;
+
+    @Column(name = "`lock`")
+    @ColumnDefault("false")
+    private boolean lock = false;
+
+    @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "user")
     private List<MovieReview> movieReviews;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "user")
     private List<MovieFavorite> movieFavorites;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "user")
     private List<ChairShowTime> chairShowTime;
 }

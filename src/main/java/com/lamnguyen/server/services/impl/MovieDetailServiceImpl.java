@@ -11,12 +11,9 @@ import com.lamnguyen.server.services.ShowtimeService;
 import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MovieDetailServiceImpl implements MovieDetailService {
@@ -27,9 +24,9 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     private ShowtimeService showtimeService;
 
     @Override
-    public MovieDetailResponse getMovieDetail(Integer id) {
+    public MovieDetailResponse getMovieDetail(Integer id, String date) {
         MovieDTO movie = movieService.findById(id);
-        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id, DateTimeFormat.generateStartDate(null));
+        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id, DateTimeFormat.generateStartDate(date));
         String key = movie.getIdApi();
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + key, String.class);

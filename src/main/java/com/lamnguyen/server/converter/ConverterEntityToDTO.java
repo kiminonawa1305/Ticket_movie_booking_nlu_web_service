@@ -11,8 +11,8 @@ public class ConverterEntityToDTO {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CustomerDTO convert(Customer customer) {
-        return modelMapper.map(customer, CustomerDTO.class);
+    public UserDTO convert(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
     public MovieDTO convert(Movie movie) {
