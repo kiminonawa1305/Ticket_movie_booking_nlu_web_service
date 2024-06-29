@@ -1,11 +1,10 @@
 package com.lamnguyen.server.controllers;
 
 
-import com.lamnguyen.server.models.dto.CustomerDTO;
-import com.lamnguyen.server.models.entity.Customer;
+import com.lamnguyen.server.models.dto.UserDTO;
+import com.lamnguyen.server.models.entity.User;
 import com.lamnguyen.server.models.response.APIResponse;
-import com.lamnguyen.server.services.CustomerService;
-import com.lamnguyen.server.exceptions.ApplicationException;
+import com.lamnguyen.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,24 +17,24 @@ import java.util.Map;
 @RequestMapping(value = "/user/api")
 public class UserRestController {
     @Autowired
-    private CustomerService service;
+    private UserService service;
 
     @PostMapping(value = "/check")
-    public APIResponse<CustomerDTO> findCustomer(@RequestBody Map<String, String> body) {
-        String apiId = body.get("apiId");
-        CustomerDTO customer = service.findCustomer(apiId);
-        return APIResponse.<CustomerDTO>builder()
+    public APIResponse<UserDTO> findUser(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        UserDTO user = service.findByEmail(email);
+        return APIResponse.<UserDTO>builder()
                 .message("exit!")
                 .status(202)
-                .data(customer)
+                .data(user)
                 .build();
     }
 
     @PostMapping(value = "/register")
-    public APIResponse<CustomerDTO> register(@RequestBody Customer customer) {
-        CustomerDTO register = service.register(customer);
+    public APIResponse<UserDTO> register(@RequestBody User user) {
+        UserDTO register = service.register(user);
         if (register == null) throw new NullPointerException("Cannot register user");
-        return APIResponse.<CustomerDTO>builder()
+        return APIResponse.<UserDTO>builder()
                 .message("Register successfully")
                 .status(202)
                 .data(register)

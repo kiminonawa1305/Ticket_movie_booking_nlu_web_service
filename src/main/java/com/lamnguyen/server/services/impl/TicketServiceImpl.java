@@ -3,6 +3,7 @@ package com.lamnguyen.server.services.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.lamnguyen.server.enums.ChairStatus;
+import com.lamnguyen.server.enums.ChairType;
 import com.lamnguyen.server.models.entity.*;
 import com.lamnguyen.server.models.response.TicketDetailResponse;
 import com.lamnguyen.server.models.response.TicketResponse;
@@ -29,40 +30,44 @@ public class TicketServiceImpl implements TicketService {
     private ChairShowtimeRepository chairShowtimeRepository;
 
     @Override
-    public Ticket buyTicket(Integer chairId, Integer customerId) {
+    public Ticket buyTicket(Integer chairId, Integer userId) {
         Showtime st = showtimeRepository.findByChairShowtimeId(chairId);
         ChairShowTime chair = chairShowtimeRepository.findById(chairId).orElse(null);
         if (chair != null && chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD)) return null;
+        PriceBoard priceBoard = chair.getChair().getRoom().getCinema().getPriceBoard();
         Ticket ticket = Ticket.builder()
                 .chairShowTime(ChairShowTime.builder().id(chairId).build())
-                .customer(Customer.builder().id(customerId).build())
+                .user(User.builder().id(userId).build())
                 .showtime(st)
+                .price(chair.getChair().getType().equals(ChairType.VIP) ? priceBoard.getVip() :
+                        chair.getChair().getType().equals(ChairType.COUPLE) ? priceBoard.getCouple() :
+                                priceBoard.getSingle())
                 .avail(true)
                 .build();
 
         chair.setStatus(ChairStatus.SOLD);
-        chair.setCustomer(Customer.builder().id(customerId).build());
+        chair.setUser(User.builder().id(userId).build());
         chairShowtimeRepository.saveAndFlush(chair);
         return ticketRepository.saveAndFlush(ticket);
     }
 
     @Override
     public List<TicketResponse> getTicketAvail(Integer userId) {
-        List<Ticket> tickets = ticketRepository.findByAvailIsTrueAndShowtime_AvailIsTrueAndCustomer_Id(userId);
+        List<Ticket> tickets = ticketRepository.findByAvailIsTrueAndShowtime_AvailIsTrueAndUser_Id(userId);
         RestTemplate restTemplate = new RestTemplate();
         return tickets.stream().map(ticket -> getTicketResponse(restTemplate, ticket)).toList();
     }
 
     @Override
     public List<TicketResponse> getTicketNonAvail(Integer userId) {
-        List<Ticket> tickets = ticketRepository.findByAvailIsFalseAndCustomer_Id(userId);
+        List<Ticket> tickets = ticketRepository.findByAvailIsFalseAndUser_Id(userId);
         RestTemplate restTemplate = new RestTemplate();
         return tickets.stream().map(ticket -> getTicketResponse(restTemplate, ticket)).toList();
     }
 
     @Override
-    public List<TicketResponse> getTicketByCustomerId(Integer customerId) {
-        List<Ticket> tickets = ticketRepository.findByCustomer_Id(customerId);
+    public List<TicketResponse> getTicketByUserId(Integer userId) {
+        List<Ticket> tickets = ticketRepository.findByUser_Id(userId);
         RestTemplate restTemplate = new RestTemplate();
         return tickets.stream().map(ticket -> getTicketResponse(restTemplate, ticket)).toList();
     }

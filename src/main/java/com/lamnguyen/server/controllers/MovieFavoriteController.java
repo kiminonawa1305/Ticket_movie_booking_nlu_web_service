@@ -17,9 +17,9 @@ public class MovieFavoriteController {
     @Autowired
     private MovieFavoriteService movieFavoriteService;
 
-    @GetMapping("/{customerId}")
-    public APIResponse<List<MovieResponse>> getListFavoriteMoviesDetailByCustomerId(@PathVariable("customerId") Integer customerId) {
-        List<MovieResponse> favorites = movieFavoriteService.getFavoriteMoviesByCustomerId(customerId);
+    @GetMapping("/{userId}")
+    public APIResponse<List<MovieResponse>> getListFavoriteMoviesDetailByUserId(@PathVariable("userId") Integer userId) {
+        List<MovieResponse> favorites = movieFavoriteService.getFavoriteMoviesByUserId(userId);
 
         return APIResponse.<List<MovieResponse>>builder()
                 .status(202)

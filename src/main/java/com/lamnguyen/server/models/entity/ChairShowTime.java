@@ -1,7 +1,6 @@
 package com.lamnguyen.server.models.entity;
 
 import com.lamnguyen.server.enums.ChairStatus;
-import com.lamnguyen.server.enums.ChairType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +26,8 @@ public class ChairShowTime {
     private Chair chair;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "showtime_id")

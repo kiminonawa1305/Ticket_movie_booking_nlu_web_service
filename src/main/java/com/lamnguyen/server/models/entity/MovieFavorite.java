@@ -22,6 +22,6 @@ public class MovieFavorite {
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

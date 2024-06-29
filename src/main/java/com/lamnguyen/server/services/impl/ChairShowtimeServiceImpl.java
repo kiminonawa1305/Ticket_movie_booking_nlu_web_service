@@ -3,15 +3,11 @@ package com.lamnguyen.server.services.impl;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lamnguyen.server.converter.ConverterEntityToDTO;
 import com.lamnguyen.server.enums.ChairStatus;
-import com.lamnguyen.server.models.dto.ChairDTO;
 import com.lamnguyen.server.models.dto.ChairShowtimeDTO;
-import com.lamnguyen.server.models.entity.Chair;
 import com.lamnguyen.server.models.entity.ChairShowTime;
-import com.lamnguyen.server.models.entity.Customer;
-import com.lamnguyen.server.repositories.ChairRepository;
+import com.lamnguyen.server.models.entity.User;
 import com.lamnguyen.server.repositories.ChairShowtimeRepository;
 import com.lamnguyen.server.requests.ChairUpdateRequest;
-import com.lamnguyen.server.services.ChairService;
 import com.lamnguyen.server.services.ChairShowtimeService;
 import com.lamnguyen.server.services.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +49,12 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
         if (chairShowTime == null ||
                 chairShowTime.getStatus().equals(ChairStatus.SOLD) ||
                 (chairShowTime.getStatus().equals(ChairStatus.SELECTED) &&
-                        chairShowTime.getCustomer() != null &&
-                        !chairShowTime.getCustomer().getId().equals(chairUpdateRequest.getUserId())))
+                        chairShowTime.getUser() != null &&
+                        !chairShowTime.getUser().getId().equals(chairUpdateRequest.getUserId())))
             return null;
 
         chairShowTime.setStatus(chairUpdateRequest.getStatus());
-        chairShowTime.setCustomer(Customer.builder().id(chairUpdateRequest.getUserId()).build());
+        chairShowTime.setUser(User.builder().id(chairUpdateRequest.getUserId()).build());
         ChairShowtimeDTO chairUpdateDTO = convertToChairDTO(chairShowTime);
         chairUpdateDTO.setUserId(chairUpdateRequest.getUserId());
         chairUpdateDTO.setName(chairShowTime.getChair().getName());
@@ -79,8 +75,8 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
             dto = convertToChairDTO(chair);
             dto.setName(chair.getChair().getName());
             dto.setType(chair.getChair().getType());
-            if (chair.getCustomer() != null)
-                dto.setUserId(chair.getCustomer().getId());
+            if (chair.getUser() != null)
+                dto.setUserId(chair.getUser().getId());
             dto.setType(chair.getChair().getType());
             result.add(dto);
         }

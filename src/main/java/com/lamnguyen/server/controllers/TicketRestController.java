@@ -1,17 +1,11 @@
 package com.lamnguyen.server.controllers;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.lamnguyen.server.models.dto.BillDTO;
 import com.lamnguyen.server.models.entity.Ticket;
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.TicketDetailResponse;
 import com.lamnguyen.server.models.response.TicketResponse;
 import com.lamnguyen.server.services.TicketService;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +25,12 @@ public class TicketRestController {
         return APIResponse.<Void>builder().status(202).message("Hello World").build();
     }
 
-    @GetMapping(value = "/all/{customerId}")
-    public APIResponse<List<TicketResponse>> getAllTickets(@PathVariable Integer customerId) {
-        if (customerId == null) {
+    @GetMapping(value = "/all/{userId}")
+    public APIResponse<List<TicketResponse>> getAllTickets(@PathVariable Integer userId) {
+        if (userId == null) {
             return APIResponse.<List<TicketResponse>>builder().status(401).message("Unauthorized").build();
         } else {
-            List<TicketResponse> ticketResponses = ticketService.getTicketByCustomerId(customerId);
+            List<TicketResponse> ticketResponses = ticketService.getTicketByUserId(userId);
             return APIResponse.<List<TicketResponse>>builder().status(202).message("Success").data(ticketResponses).build();
         }
     }
@@ -70,10 +64,10 @@ public class TicketRestController {
         String arrays = String.valueOf(requestBody.get("chairIds"));
         arrays = arrays.replace("[", "").replace("]", "").replaceAll(" ", "");
         List<Integer> chairIds = Arrays.stream(arrays.split(",")).map(Integer::parseInt).toList();
-        Integer customerId = (Integer) requestBody.get("customerId");
+        Integer userId = (Integer) requestBody.get("userId");
         List<Ticket> tickets = new ArrayList<>();
         for (Integer chairId : chairIds) {
-            Ticket ticket = ticketService.buyTicket(chairId, customerId);
+            Ticket ticket = ticketService.buyTicket(chairId, userId);
             if (ticket != null) tickets.add(ticket);
         }
         return APIResponse.<List<Ticket>>builder().status(202).message(tickets.isEmpty() ? "Failed to buy ticket" : "Successfully bought ticket").data(tickets).build();

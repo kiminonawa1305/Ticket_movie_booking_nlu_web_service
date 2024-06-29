@@ -22,6 +22,6 @@ public class MovieReview {
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }
