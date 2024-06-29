@@ -36,7 +36,7 @@ public class DayDashboardServiceImpl extends DashboardServiceImpl {
         double totalNoon = 0;
 
         for (Ticket ticket : tickets) {
-            Chair chair = chairRepository.findChairById(ticket.getChair().getId());
+            Chair chair = chairRepository.findChairById(ticket.getChairShowTime().getChair().getId());
             ChairType chairType = chair.getType();
             Room r = roomRepository.findRoomById(chair.getRoom().getId());
             Cinema cinema = cinemaRepository.findCinemaById(r.getCinema().getId());
