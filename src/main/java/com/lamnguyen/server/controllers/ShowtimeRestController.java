@@ -17,9 +17,8 @@ public class ShowtimeRestController {
     @Autowired
     private ShowtimeService showtimeService;
 
-    @GetMapping(value = "/{movieId}")
-    public APIResponse<List<ShowtimeByCinemaResponse>> getShowtime(@PathVariable("movieId") Integer movieId, @RequestParam Map<String, Object> args) {
-        String dateStr = (String) args.get("date");
+    @GetMapping(value = "/{movieId}/{date}")
+    public APIResponse<List<ShowtimeByCinemaResponse>> getShowtime(@PathVariable("movieId") Integer movieId, @PathVariable("date") String dateStr) {
         LocalDateTime date = DateTimeFormat.generateStartDate(dateStr);
         List<ShowtimeByCinemaResponse> showtimeByCinemaResponses = showtimeService.findShowtimeByCinema(movieId, date);
         return APIResponse.<List<ShowtimeByCinemaResponse>>builder()

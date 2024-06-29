@@ -1,14 +1,11 @@
 package com.lamnguyen.server.controllers;
 
 
-import com.lamnguyen.server.models.dto.ChairDTO;
 import com.lamnguyen.server.models.dto.ChairShowtimeDTO;
 import com.lamnguyen.server.models.entity.Chair;
-import com.lamnguyen.server.models.entity.ChairShowTime;
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.ListChairResponse;
 import com.lamnguyen.server.requests.ChairUpdateRequest;
-import com.lamnguyen.server.services.ChairService;
 import com.lamnguyen.server.services.ChairShowtimeService;
 import com.lamnguyen.server.services.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;

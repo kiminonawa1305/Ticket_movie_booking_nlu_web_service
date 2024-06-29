@@ -10,7 +10,6 @@ import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,9 @@ public class MovieRestController {
                 .build();
     }
 
-    @GetMapping(value = "/detail/{id}")
-    public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("id") Integer id) {
-        MovieDetailResponse result = movieDetailService.getMovieDetail(id);
+    @GetMapping(value = "/detail/{id}/{date}")
+    public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("date") String date, @PathVariable("id") Integer id) {
+        MovieDetailResponse result = movieDetailService.getMovieDetail(id, date);
         return APIResponse.<MovieDetailResponse>builder()
                 .status(202).message("Success")
                 .data(result)

@@ -1,4 +1,4 @@
 package com.lamnguyen.server.repositories.customs;
 
-public interface PriceBoardCustomerRepository {
+public interface PriceBoardCustomRepository {
 }
