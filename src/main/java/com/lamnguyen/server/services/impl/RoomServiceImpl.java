@@ -1,6 +1,7 @@
 package com.lamnguyen.server.services.impl;
 
 import com.lamnguyen.server.models.entity.Room;
+import com.lamnguyen.server.models.response.RoomResponse;
 import com.lamnguyen.server.repositories.RoomRepository;
 import com.lamnguyen.server.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<Room> findAll() {
         return roomRepository.findAll();
+    }
+
+    @Override
+    public List<Room> getAllRoomsByCinemaId(Integer cinemaId) {
+        return roomRepository.findRoomsByCinemaId(cinemaId);
     }
 }

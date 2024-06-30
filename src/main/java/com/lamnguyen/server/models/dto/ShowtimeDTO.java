@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShowtimeDTO {
-    private Integer id;
+    private Integer id, movieId, roomId;
     private LocalDateTime start;
     private boolean avail;
 }

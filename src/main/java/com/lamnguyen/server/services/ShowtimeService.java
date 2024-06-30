@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ShowtimeService {
+    List<Showtime> getAllShowtime();
+
     Showtime findById(int id);
 
     List<ShowtimeDTO> findShowTimeDTOByMovieId(int id, LocalDateTime currentDate);
@@ -17,4 +19,6 @@ public interface ShowtimeService {
     List<ShowtimeByCinemaResponse> findShowtimeByCinema(int id, LocalDateTime currentDate);
 
     PriceBoardDTO getPriceBoard(Integer showtimeId);
+
+    Showtime addShowtime(ShowtimeDTO showtimeDTO);
 }
