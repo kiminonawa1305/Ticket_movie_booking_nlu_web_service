@@ -34,9 +34,9 @@ public class MovieRestController {
                 .build();
     }
 
-    @GetMapping(value = "/detail/{id}/{date}")
-    public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("date") String date, @PathVariable("id") Integer id) {
-        MovieDetailResponse result = movieDetailService.getMovieDetail(id, date);
+    @GetMapping(value = "/detail/{userId}/{id}/{date}")
+    public APIResponse<MovieDetailResponse> getMovieDetailById(@PathVariable("date") String date, @PathVariable("userId") Integer userId, @PathVariable("id") Integer id) {
+        MovieDetailResponse result = movieDetailService.getMovieDetail(userId, id, date);
         return APIResponse.<MovieDetailResponse>builder()
                 .status(202).message("Success")
                 .data(result)

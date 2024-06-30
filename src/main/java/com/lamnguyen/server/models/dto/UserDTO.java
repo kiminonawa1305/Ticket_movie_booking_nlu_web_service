@@ -19,4 +19,5 @@ public class UserDTO implements Serializable {
     String fullName;
     String email;
     String phone;
+    boolean lock;
 }

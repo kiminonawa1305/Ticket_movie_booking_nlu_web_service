@@ -4,10 +4,7 @@ import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.services.MovieFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,15 @@ public class MovieFavoriteController {
                 .status(202)
                 .message("success")
                 .data(favorites)
+                .build();
+    }
+
+    @PostMapping("/{userId}/{movieId}")
+    public APIResponse<List<MovieResponse>> setFavourite(@PathVariable("userId") Integer userId, @PathVariable("movieId") Integer movieId) {
+        movieFavoriteService.setFavourite(userId, movieId);
+        return APIResponse.<List<MovieResponse>>builder()
+                .status(202)
+                .message("success")
                 .build();
     }
 }

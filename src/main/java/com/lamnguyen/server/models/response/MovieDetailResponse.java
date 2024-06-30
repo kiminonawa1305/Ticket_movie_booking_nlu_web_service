@@ -15,6 +15,7 @@ public class MovieDetailResponse {
     private Double rate;
     private Boolean avail;
     private String[] actors, directors, genres;
+    private boolean favourite;
 
     public void parseActors(String actors) {
         this.actors = actors.split(", ");

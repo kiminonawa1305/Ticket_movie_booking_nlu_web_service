@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/price")
-public class PriceManageController {
+public class PriceManagerRestController {
     @Autowired
     private PriceManageServiceImpl priceBoardService;
 

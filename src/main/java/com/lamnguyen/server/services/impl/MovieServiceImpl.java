@@ -10,12 +10,10 @@ import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 import com.lamnguyen.server.repositories.MovieRepository;
 import com.lamnguyen.server.services.MovieService;
-import com.lamnguyen.server.utils.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;

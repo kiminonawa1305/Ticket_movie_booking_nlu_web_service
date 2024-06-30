@@ -15,4 +15,5 @@ public class MovieResponse implements Serializable {
     private String title, poster, genre, duration;
     private Integer id, vote;
     private Double rate;
+    private boolean favourite;
 }

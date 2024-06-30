@@ -6,6 +6,7 @@ import com.lamnguyen.server.models.dto.ShowtimeDTO;
 import com.lamnguyen.server.models.response.MovieDetailResponse;
 import com.lamnguyen.server.models.response.MovieDetailResponseRestApi;
 import com.lamnguyen.server.services.MovieDetailService;
+import com.lamnguyen.server.services.MovieFavoriteService;
 import com.lamnguyen.server.services.MovieService;
 import com.lamnguyen.server.services.ShowtimeService;
 import com.lamnguyen.server.utils.DateTimeFormat;
@@ -23,8 +24,11 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Autowired
     private ShowtimeService showtimeService;
 
+    @Autowired
+    private MovieFavoriteService movieFavoriteService;
+
     @Override
-    public MovieDetailResponse getMovieDetail(Integer id, String date) {
+    public MovieDetailResponse getMovieDetail(Integer userId, Integer id, String date) {
         MovieDTO movie = movieService.findById(id);
         List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id, DateTimeFormat.generateStartDate(date));
         String key = movie.getIdApi();
@@ -40,6 +44,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
                 .rate(5.0)
                 .duration(restApi.getRuntime())
                 .description(restApi.getPlot())
+                .favourite(movieFavoriteService.getFavoriteMoviesByUserIdAndMovieId(userId, id) != null)
                 .build();
         result.parseActors(restApi.getActors());
         result.parseDirectors(restApi.getDirector());

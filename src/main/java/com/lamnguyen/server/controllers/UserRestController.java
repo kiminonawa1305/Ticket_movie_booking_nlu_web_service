@@ -19,10 +19,10 @@ public class UserRestController {
     @Autowired
     private UserService service;
 
-    @PostMapping(value = "/check")
-    public APIResponse<UserDTO> findUser(@RequestBody Map<String, String> body) {
+    @PostMapping(value = "/sign-in")
+    public APIResponse<UserDTO> signIn(@RequestBody Map<String, String> body) {
         String email = body.get("email");
-        UserDTO user = service.findByEmail(email);
+        UserDTO user = service.login(email);
         return APIResponse.<UserDTO>builder()
                 .message("exit!")
                 .status(202)

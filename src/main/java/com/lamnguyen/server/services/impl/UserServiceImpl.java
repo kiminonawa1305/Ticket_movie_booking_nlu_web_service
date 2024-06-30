@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -24,10 +26,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByEmail(String email) {
-        if (userRepository.findByEmail(email) == null)
+    public UserDTO login(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null)
             throw new ApplicationException(ApplicationException.ErrorCode.USER_NON_EXIST);
-        return convert(userRepository.findByEmail(email));
+        if (user.isLock())
+            throw new ApplicationException(ApplicationException.ErrorCode.USER_IS_BLOCKED);
+        return convert(user);
+    }
+
+    @Override
+    public List<UserDTO> findAll() {
+        return userRepository.findAll().stream().map(this::convert).toList();
     }
 
     private UserDTO convert(User user) {

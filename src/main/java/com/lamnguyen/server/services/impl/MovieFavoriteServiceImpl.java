@@ -2,6 +2,7 @@ package com.lamnguyen.server.services.impl;
 
 import com.lamnguyen.server.models.entity.Movie;
 import com.lamnguyen.server.models.entity.MovieFavorite;
+import com.lamnguyen.server.models.entity.User;
 import com.lamnguyen.server.models.response.MovieResponse;
 import com.lamnguyen.server.models.response.MovieResponseRestApi;
 import com.lamnguyen.server.repositories.MovieFavoriteRepository;
@@ -26,11 +27,29 @@ public class MovieFavoriteServiceImpl implements MovieFavoriteService {
     public List<MovieResponse> getFavoriteMoviesByUserId(Integer userId) {
         List<MovieFavorite> movieFavorites = movieFavoriteRepository.findByUser_Id(userId);
 
-        RestTemplate restTemplate = new RestTemplate();
         return movieFavorites.stream().map(movieFavorite -> {
             Movie movie = movieFavorite.getMovie();
             MovieResponseRestApi movieResponseRestApi = movieService.getMovieResponseRestApi(movie.getIdApi());
             return movieService.convertMovieResponseRestApiToMovieResponse(movie, movieResponseRestApi);
         }).toList();
+    }
+
+    @Override
+    public MovieFavorite getFavoriteMoviesByUserIdAndMovieId(Integer userId, Integer movieId) {
+        return movieFavoriteRepository.findByUser_IdAndMovie_Id(userId, movieId);
+    }
+
+    @Override
+    public void setFavourite(Integer userId, Integer movieId) {
+        MovieFavorite movieFavorite = getFavoriteMoviesByUserIdAndMovieId(userId, movieId);
+        if (movieFavorite == null) {
+            movieFavorite = MovieFavorite.builder()
+                    .movie(Movie.builder().id(movieId).build())
+                    .user(User.builder().id(userId).build())
+                    .build();
+            movieFavoriteRepository.save(movieFavorite);
+        } else {
+            movieFavoriteRepository.delete(movieFavorite);
+        }
     }
 }
