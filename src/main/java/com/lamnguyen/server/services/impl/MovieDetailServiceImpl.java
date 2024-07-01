@@ -19,21 +19,19 @@ import java.util.List;
 @Service
 public class MovieDetailServiceImpl implements MovieDetailService {
     @Autowired
-    private MovieService movieService;
-
+    public MovieService movieService;
     @Autowired
-    private ShowtimeService showtimeService;
-
+    public ShowtimeService showtimeService;
     @Autowired
-    private MovieFavoriteService movieFavoriteService;
+    public MovieFavoriteService movieFavoriteService;
 
     @Override
-    public MovieDetailResponse getMovieDetail(Integer userId, Integer id, String date) {
-        MovieDTO movie = movieService.findById(id);
-        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(id, DateTimeFormat.generateStartDate(date));
+    public MovieDetailResponse getMovieDetail(Integer userId, Integer movieId, String date) {
+        MovieDTO movie = movieService.findById(movieId);
+        List<ShowtimeDTO> showtimes = showtimeService.findShowTimeDTOByMovieId(movieId, DateTimeFormat.generateStartDate(date));
         String key = movie.getIdApi();
         RestTemplate restTemplate = new RestTemplate();
-        String data = restTemplate.getForObject("https://www.omdbapi.com/?apikey=c3d0a99f&i=" + key, String.class);
+        String data = restTemplate.getForObject(MovieService.URL_API + key, String.class);
         MovieDetailResponseRestApi restApi = new Gson().fromJson(data, MovieDetailResponseRestApi.class);
         MovieDetailResponse result = MovieDetailResponse.builder()
                 .id(movie.getId())
@@ -44,7 +42,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
                 .rate(5.0)
                 .duration(restApi.getRuntime())
                 .description(restApi.getPlot())
-                .favourite(movieFavoriteService.getFavoriteMoviesByUserIdAndMovieId(userId, id) != null)
+                .favourite(movieFavoriteService.getFavoriteMoviesByUserIdAndMovieId(userId, movieId) != null)
                 .build();
         result.parseActors(restApi.getActors());
         result.parseDirectors(restApi.getDirector());

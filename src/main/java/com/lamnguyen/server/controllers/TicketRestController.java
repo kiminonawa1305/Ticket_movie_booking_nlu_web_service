@@ -59,15 +59,15 @@ public class TicketRestController {
         return APIResponse.<List<TicketResponse>>builder().status(202).message("Success").data(responses).build();
     }
 
-    @PostMapping(value = "/buy")
-    public APIResponse<List<Ticket>> buyTicket(@RequestBody Map<String, Object> requestBody) {
+    @PostMapping(value = "/buy/{showtimeId}")
+    public APIResponse<List<Ticket>> buyTicket(@PathVariable("showtimeId") Integer showtimeId, @RequestBody Map<String, Object> requestBody) {
         String arrays = String.valueOf(requestBody.get("chairIds"));
         arrays = arrays.replace("[", "").replace("]", "").replaceAll(" ", "");
         List<Integer> chairIds = Arrays.stream(arrays.split(",")).map(Integer::parseInt).toList();
         Integer userId = (Integer) requestBody.get("userId");
         List<Ticket> tickets = new ArrayList<>();
         for (Integer chairId : chairIds) {
-            Ticket ticket = ticketService.buyTicket(chairId, userId);
+            Ticket ticket = ticketService.buyTicket(showtimeId, chairId, userId);
             if (ticket != null) tickets.add(ticket);
         }
         return APIResponse.<List<Ticket>>builder().status(202).message(tickets.isEmpty() ? "Failed to buy ticket" : "Successfully bought ticket").data(tickets).build();

@@ -1,12 +1,8 @@
-package com.lamnguyen.server.controllers;
+package com.lamnguyen.server.controllers.admin;
 
 import com.lamnguyen.server.models.response.APIResponse;
 import com.lamnguyen.server.models.response.DashboardResponse;
 import com.lamnguyen.server.services.impl.DashboardServiceImpl;
-import com.lamnguyen.server.services.impl.DayDashboardServiceImpl;
-import com.lamnguyen.server.services.impl.MonthDashBoardServiceImpl;
-import com.lamnguyen.server.services.impl.WeekDashboardServiceImpl;
-import com.lamnguyen.server.utils.DateTimeFormat;
 import com.lamnguyen.server.utils.TimeClassification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-
 @RestController
-@RequestMapping(value = "/dashboard/api")
+@RequestMapping(value = "/admin/dashboard/api")
 public class DashboardController {
     @Qualifier("DayDashboardServiceImpl")
     @Autowired
@@ -32,12 +26,12 @@ public class DashboardController {
     @Autowired
     private DashboardServiceImpl monthDashboardService;
 
+    /*
+     day is 0
+     week is 1
+     month is 2
+      */
     @GetMapping(value = "/time")
-         /*
-        day is 0
-        week is 1
-        month is 2
-         */
     public APIResponse<DashboardResponse> getDashboardData(@RequestParam String from, @RequestParam String to, @RequestParam int cinemaId) {
         DashboardResponse dashboardResponse = null;
         int timeType = TimeClassification.classifyTime(from, to);

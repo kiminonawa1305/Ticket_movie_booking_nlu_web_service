@@ -12,7 +12,7 @@ public class GlobalExceptionHandel {
     public ResponseEntity<APIResponse<String>> handleException(ApplicationException e) {
         APIResponse<String> body = APIResponse.<String>builder()
                 .status(e.getErrorCode().code())
-                .message(e.getErrorCode().message())
+                .message(e.getErrorCode().message() == null ? "" : e.getErrorCode().message())
                 .build();
         return ResponseEntity.badRequest().body(body);
     }

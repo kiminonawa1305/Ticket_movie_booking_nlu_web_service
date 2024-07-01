@@ -1,5 +1,6 @@
 package com.lamnguyen.server.services.impl;
 
+import com.lamnguyen.server.enums.RoleUser;
 import com.lamnguyen.server.exceptions.ApplicationException;
 import com.lamnguyen.server.models.dto.UserDTO;
 import com.lamnguyen.server.models.entity.User;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO register(User user) {
         user.setLock(false);
+        user.setRole(RoleUser.USER);
         return convert(userRepository.saveAndFlush(user));
     }
 
@@ -38,6 +40,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(this::convert).toList();
+    }
+
+    @Override
+    public UserDTO lock(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ApplicationException(ApplicationException.ErrorCode.USER_NON_EXIST));
+        user.setLock(!user.isLock());
+        return convert(userRepository.saveAndFlush(user));
     }
 
     private UserDTO convert(User user) {

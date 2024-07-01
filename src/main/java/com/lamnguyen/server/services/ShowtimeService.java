@@ -4,8 +4,8 @@ import com.lamnguyen.server.models.dto.PriceBoardDTO;
 import com.lamnguyen.server.models.dto.ShowtimeDTO;
 import com.lamnguyen.server.models.dto.ShowtimeByCinemaResponse;
 import com.lamnguyen.server.models.entity.Showtime;
+import com.lamnguyen.server.models.response.ShowtimeManagerResponse;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,5 +20,5 @@ public interface ShowtimeService {
 
     PriceBoardDTO getPriceBoard(Integer showtimeId);
 
-    Showtime addShowtime(ShowtimeDTO showtimeDTO);
+    ShowtimeManagerResponse addShowtime(ShowtimeDTO showtimeDTO);
 }

@@ -30,15 +30,14 @@ public class TicketServiceImpl implements TicketService {
     private ChairShowtimeRepository chairShowtimeRepository;
 
     @Override
-    public Ticket buyTicket(Integer chairId, Integer userId) {
-        Showtime st = showtimeRepository.findByChairShowtimeId(chairId);
-        ChairShowTime chair = chairShowtimeRepository.findById(chairId).orElse(null);
+    public Ticket buyTicket(Integer showtimeId, Integer chairShowTimeId, Integer userId) {
+        ChairShowTime chair = chairShowtimeRepository.findById(chairShowTimeId).orElse(null);
         if (chair != null && chair.getStatus() != null && chair.getStatus().equals(ChairStatus.SOLD)) return null;
         PriceBoard priceBoard = chair.getChair().getRoom().getCinema().getPriceBoard();
         Ticket ticket = Ticket.builder()
-                .chairShowTime(ChairShowTime.builder().id(chairId).build())
+                .chairShowTime(ChairShowTime.builder().id(chairShowTimeId).build())
                 .user(User.builder().id(userId).build())
-                .showtime(st)
+                .showtime(chair.getShowtime())
                 .price(chair.getChair().getType().equals(ChairType.VIP) ? priceBoard.getVip() :
                         chair.getChair().getType().equals(ChairType.COUPLE) ? priceBoard.getCouple() :
                                 priceBoard.getSingle())

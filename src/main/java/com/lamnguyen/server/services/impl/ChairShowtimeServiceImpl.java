@@ -5,6 +5,8 @@ import com.lamnguyen.server.converter.ConverterEntityToDTO;
 import com.lamnguyen.server.enums.ChairStatus;
 import com.lamnguyen.server.models.dto.ChairShowtimeDTO;
 import com.lamnguyen.server.models.entity.ChairShowTime;
+import com.lamnguyen.server.models.entity.Room;
+import com.lamnguyen.server.models.entity.Showtime;
 import com.lamnguyen.server.models.entity.User;
 import com.lamnguyen.server.repositories.ChairShowtimeRepository;
 import com.lamnguyen.server.requests.ChairUpdateRequest;
@@ -62,6 +64,19 @@ public class ChairShowtimeServiceImpl implements ChairShowtimeService {
         firebaseDatabase.getReference().child(chairUpdateRequest.getUuid()).setValueAsync(chairUpdateDTO);
         chairShowtimeRepository.saveAndFlush(chairShowTime);
         return convertToChairDTO(chairShowTime);
+    }
+
+    @Override
+    public List<ChairShowtimeDTO> addChairShowtime(Integer showtimeId, Room room) {
+        Showtime showtime = Showtime.builder().id(showtimeId).build();
+        return room.getChairs().stream().map(chair ->
+                convertToChairDTO(chairShowtimeRepository
+                        .saveAndFlush(ChairShowTime.builder()
+                                .status(ChairStatus.AVAILABLE)
+                                .chair(chair)
+                                .showtime(showtime)
+                                .build()))
+        ).toList();
     }
 
     public void disconnectKeyChairStatus() {

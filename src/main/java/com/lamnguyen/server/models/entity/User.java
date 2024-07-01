@@ -1,11 +1,13 @@
 package com.lamnguyen.server.models.entity;
 
+import com.lamnguyen.server.enums.RoleUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class User {
     private Integer id;
     private String fullName;
     private String email;
+    @Enumerated(EnumType.STRING)
+    private RoleUser role = RoleUser.USER;
     private String phone;
 
     @Column(name = "`lock`")

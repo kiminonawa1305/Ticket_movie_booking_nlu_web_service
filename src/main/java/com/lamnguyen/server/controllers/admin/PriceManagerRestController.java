@@ -1,4 +1,4 @@
-package com.lamnguyen.server.controllers;
+package com.lamnguyen.server.controllers.admin;
 
 import com.lamnguyen.server.models.dto.PriceManageDTO;
 import com.lamnguyen.server.models.response.APIResponse;

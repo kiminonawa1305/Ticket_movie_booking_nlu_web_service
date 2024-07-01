@@ -1,6 +1,5 @@
 package com.lamnguyen.server.models.response;
 
-import com.lamnguyen.server.models.dto.ChairDTO;
 import com.lamnguyen.server.models.dto.ChairShowtimeDTO;
 import com.lamnguyen.server.models.dto.PriceBoardDTO;
 import lombok.AllArgsConstructor;

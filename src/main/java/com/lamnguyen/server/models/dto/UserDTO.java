@@ -1,6 +1,7 @@
 package com.lamnguyen.server.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.lamnguyen.server.enums.RoleUser;
 import com.lamnguyen.server.models.entity.User;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class UserDTO implements Serializable {
     String fullName;
     String email;
     String phone;
+    RoleUser role;
     boolean lock;
 }

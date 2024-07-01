@@ -11,4 +11,6 @@ public interface UserService {
     UserDTO login(String email);
 
     List<UserDTO> findAll();
+
+    UserDTO lock(Integer userId);
 }
